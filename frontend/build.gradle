@@ -1,6 +1,9 @@
 plugins {
     id "com.moowork.node" version "1.3.1"
 }
+
+defaultTasks 'frontend'
+
 node {
     version = '10.15.3'
     npmVersion = '6.4.1'
@@ -8,4 +11,22 @@ node {
     workDir = file("${project.buildDir}/nodejs")
     npmWorkDir = file("${project.buildDir}/npm")
     nodeModulesDir = file("${project.projectDir}")
+}
+
+npm_run_build {
+    inputs.files fileTree("assets")
+    inputs.files fileTree("components")
+    inputs.files fileTree("pages")
+    inputs.files fileTree("static")
+    inputs.files fileTree("store")
+
+    inputs.file 'nuxt.config.js'
+    inputs.file 'package.json'
+    inputs.file 'package-lock.json'
+
+    outputs.dir 'build'
+}
+
+task frontend {
+    dependsOn npm_run_build
 }
