@@ -3,12 +3,12 @@ package de.swplusplus.gamereleaseview.backend.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 @Data
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "name")
 public
 class Platform {
     @Id

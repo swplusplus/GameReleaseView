@@ -15,7 +15,6 @@ class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long platformInternalId;
     private String name;
 
     @OneToMany(mappedBy = "game")

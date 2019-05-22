@@ -6,18 +6,18 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class AppDetail {
-    String appid;
-    AppDetailData data;
+    boolean success;
+    AppData data = new AppData();
+}
 
-    @Data
-    class AppDetailData {
-        boolean success;
-        ReleaseData releaseData;
+@Data
+class AppData {
+    ReleaseData release_date = new ReleaseData();
+}
 
-        @Data
-        class ReleaseData {
-            boolean comingSoon;
-            String date;
-        }
-    }
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
+class ReleaseData {
+    boolean comingSoon;
+    String date;
 }
