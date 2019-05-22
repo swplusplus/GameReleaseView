@@ -4,6 +4,9 @@ import de.swplusplus.gamereleaseview.backend.model.GameRelease;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public interface GameReleaseRepository extends CrudRepository<GameRelease, Long> {
+    public List<GameRelease> findAllByPlatformName(String platform);
 }
