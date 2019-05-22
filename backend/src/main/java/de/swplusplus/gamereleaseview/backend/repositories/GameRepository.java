@@ -6,4 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface GameRepository extends CrudRepository<Game, Long> {
+
+    public Iterable<Game> findAllForPlatform(String platform);
 }

@@ -20,6 +20,9 @@ public class GameRelease {
     @ManyToOne
     private Platform platform;
 
+    public GameRelease() {
+    }
+
     public GameRelease(Date releaseDate, Game game, Platform platform) {
         this.releaseDate = releaseDate;
         this.game = game;

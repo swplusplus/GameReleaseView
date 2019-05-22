@@ -15,10 +15,14 @@ class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Long platformInternalId;
     private String name;
 
     @OneToMany(mappedBy = "game")
     private Set<GameRelease> gameReleases = new HashSet<>();
+
+    public Game() {
+    }
 
     public Game(String name) {
         this.name = name;
