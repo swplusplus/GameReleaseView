@@ -17,7 +17,7 @@ class Game {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", fetch=FetchType.EAGER)
     private Set<GameRelease> gameReleases = new HashSet<>();
 
     public Game() {
