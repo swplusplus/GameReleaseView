@@ -39,7 +39,7 @@ public class Steamworks {
     private final String PLATFORM_NAME = "Steam";
     private final int NUMBER_OF_REQUESTS_BEFORE_WAIT = 200;
     private final int WAIT_FOR_SECONDS = 301;
-    private final int COMING_SOON_MONTH = 12 * 5;
+
 
     private final Logger logger = LoggerFactory.getLogger(Steamworks.class);
 
@@ -48,12 +48,15 @@ public class Steamworks {
     private PlatformRepository platformRepository;
     private BlacklistRepository blacklistRepository;
 
+    private final DateParser dateParser;
+
     @Autowired
-    public Steamworks(GameRepository gameRepository, GameReleaseRepository gameReleaseRepository, PlatformRepository platformRepository, BlacklistRepository blacklistRepository) {
+    public Steamworks(GameRepository gameRepository, GameReleaseRepository gameReleaseRepository, PlatformRepository platformRepository, BlacklistRepository blacklistRepository, DateParser dateParser) {
         this.gameRepository = gameRepository;
         this.gameReleaseRepository = gameReleaseRepository;
         this.platformRepository = platformRepository;
         this.blacklistRepository = blacklistRepository;
+        this.dateParser = dateParser;
     }
 
     @Scheduled(fixedRate = 60*60*1000)
@@ -62,6 +65,11 @@ public class Steamworks {
 
         RestTemplate restTemplate = new RestTemplate();
         AppList appIds = restTemplate.getForObject("http://api.steampowered.com/ISteamApps/GetAppList/v00002", AppList.class);
+
+        if (appIds == null) {
+            logger.error("could not retrieve applist from steam");
+            return;
+        }
 
         filterKnownApps(appIds);
         filterBlacklistedApps(appIds);
@@ -73,24 +81,25 @@ public class Steamworks {
         for (AppId app : appIds.getApplist().getApps()) {
             Game game = ensureGame(app);
             final String qString = String.format("https://store.steampowered.com/api/appdetails?appids=%d&filters=release_date", app.getAppid());
-            final ParameterizedTypeReference<Map<Long, AppDetail>> ptr = new ParameterizedTypeReference<Map<Long, AppDetail>>(){};
+            final ParameterizedTypeReference<Map<Long, AppDetail>> ptr = new ParameterizedTypeReference<>(){};
             final ResponseEntity<Map<Long, AppDetail>> re = restTemplate.exchange(qString, HttpMethod.GET, null, ptr);
-            AppDetail appDetail = re.getBody().entrySet().iterator().next().getValue();
-            if (appDetail.isSuccess()) {
-                String strDate = appDetail.getData().getRelease_date().getDate();
-                try {
-                    GameRelease gr = new GameRelease(parseDate(strDate, appDetail.getData().getRelease_date().isComingSoon()), game, platform, app.getAppid());
-                    gr.setPlatformInternalId(app.getAppid());
-                    game.getGameReleases().add(gr);
-                    gameRepository.save(game);
-                    gameReleaseRepository.save(gr);
-                } catch (ParseException e) {
-                    gameRepository.save(game);
+            if (re.getBody() != null) {
+                AppDetail appDetail = re.getBody().entrySet().iterator().next().getValue();
+                if (appDetail.isSuccess()) {
+                    String strDate = appDetail.getData().getRelease_date().getDate();
+                    try {
+                        GameRelease gr = new GameRelease(dateParser.parseDate(strDate, appDetail.getData().getRelease_date().isComingSoon()), game, platform, app.getAppid());
+                        gr.setPlatformInternalId(app.getAppid());
+                        game.getGameReleases().add(gr);
+                        gameRepository.save(game);
+                        gameReleaseRepository.save(gr);
+                    } catch (ParseException e) {
+                        // ignore
+                    }
+                } else {
+                    Blacklist bl = new Blacklist(game, platform, app.getAppid());
+                    blacklistRepository.save(bl);
                 }
-            } else {
-                Blacklist bl = new Blacklist(game, platform, app.getAppid());
-                gameRepository.save(game);
-                blacklistRepository.save(bl);
             }
             ++numberRequest;
             if (numberRequest%NUMBER_OF_REQUESTS_BEFORE_WAIT==0) {
@@ -102,65 +111,6 @@ public class Steamworks {
                 }
             }
         }
-    }
-
-    private Pair<Date, Date> parseDate(String strDate, boolean isFlaggedComingSoon) throws ParseException {
-
-        try {
-            strDate = strDate.trim();
-
-            List<String> singleDateFormats = new ArrayList<String>() {{
-                add(new String("d MMM. yyyy"));
-                add(new String("d MMM, yyyy"));
-                add(new String("MMM, d\'th\', yyyy"));
-                add(new String("yyyy"));
-            }};
-            for (String format : singleDateFormats) {
-                try {
-                    Date d = new SimpleDateFormat(format, new Locale("C")).parse(strDate);
-                    return Pair.of(d, d);
-                } catch (ParseException e) {
-                }
-            }
-
-            if (strDate.toLowerCase().contains("coming soon")
-                    || strDate.toLowerCase().contains("expected soon!")
-                    || (strDate.trim().isEmpty() && isFlaggedComingSoon)) {
-                GregorianCalendar calendar = new GregorianCalendar();
-                calendar.clear(Calendar.HOUR);
-                calendar.clear(Calendar.MINUTE);
-                calendar.clear(Calendar.SECOND);
-                calendar.clear(Calendar.MILLISECOND);
-                Date d1 = calendar.getTime();
-                calendar.add(Calendar.MONTH, COMING_SOON_MONTH);
-                Date d2 = calendar.getTime();
-                return Pair.of(d1, d2);
-            }
-
-            if (strDate.toLowerCase().matches("q[1234] \\d{4}")) {
-                Map<String, Integer> startDates = new HashMap<>() {{
-                    put("q1", 0);
-                    put("q2", 3);
-                    put("q3", 6);
-                    put("q4", 9);
-                }};
-                try {
-                    Date d1 = new SimpleDateFormat("yyyy").parse(strDate.substring(3));
-                    GregorianCalendar calendar = new GregorianCalendar();
-                    calendar.setTime(d1);
-                    calendar.add(Calendar.MONTH, startDates.get(strDate.toLowerCase().substring(0, 2)));
-                    d1 = calendar.getTime();
-                    calendar.add(Calendar.MONTH, 3);
-                    Date d2 = calendar.getTime();
-                    return Pair.of(d1, d2);
-                } catch (ParseException e) {
-                }
-            }
-
-        } catch (Exception e) {
-        }
-        logger.error("unhandled date format: " + strDate);
-        throw new ParseException("unhandled date format: " + strDate, 0);
     }
 
     private void filterKnownApps(AppList appIds) {
@@ -183,6 +133,7 @@ public class Steamworks {
         Game game = gameRepository.findByName(app.getName());
         if (game == null) {
             game = new Game(app.getName());
+            gameRepository.save(game);
         }
         return game;
     }
