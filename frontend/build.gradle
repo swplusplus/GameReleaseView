@@ -1,8 +1,37 @@
+import com.fasterxml.jackson.core.util.VersionUtil
+
 plugins {
     id "com.moowork.node" version "1.3.1"
+    id "org.openapi.generator" version "4.0.0-beta3"
 }
 
-defaultTasks 'frontend'
+
+//buildscript {
+//    repositories {
+//        mavenLocal()
+//        mavenCentral()
+//        gradlePluginPortal()
+//    }
+//    dependencies {
+//        classpath "org.openapitools:openapi-generator-gradle-plugin:4.0.0"
+//        classpath "com.moowork.gradle:gradle-node-plugin:1.3.1"
+//    }
+//}
+//
+//apply plugin: 'org.openapi.generator'
+//apply plugin: 'com.moowork.node'
+
+defaultTasks 'npm_run_build'
+
+
+task generateAPI(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    // see https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
+    generatorName = "javascript"
+    inputSpec = project.projectDir.toString() + "/../api/rest.yaml"
+    outputDir = project.projectDir.toString() + "/api"
+
+}
+
 
 node {
     version = '10.15.3'
@@ -14,6 +43,8 @@ node {
 }
 
 npm_run_build {
+    dependsOn generateAPI
+
     inputs.files fileTree("assets")
     inputs.files fileTree("components")
     inputs.files fileTree("pages")
@@ -27,6 +58,3 @@ npm_run_build {
     outputs.dir 'build'
 }
 
-task frontend {
-    dependsOn npm_run_build
-}

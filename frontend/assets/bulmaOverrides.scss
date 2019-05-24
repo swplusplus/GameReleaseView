@@ -1,0 +1,18 @@
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+
+$primary: #469396;
+$info: #46aaaa;
+$light: #f5fffa;
+
+$navbar-height: 6rem;
+$navbar-item-img-max-height: 5rem;
+$navbar-item-hover-color: $primary;
+$navbar-item-hover-background-color: $light;
+$navbar-item-active-color: $navbar-item-hover-color;
+$navbar-item-active-background-color: $navbar-item-hover-background-color;
+
+$family-monospace: "Source Code Pro";
+$footer-background-color: $light;
+
+@import "~bulma/bulma";

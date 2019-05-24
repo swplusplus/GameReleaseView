@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.5.RELEASE'
 	id 'java'
+	id "org.openapi.generator" version "4.0.0-beta3"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -15,6 +16,17 @@ repositories {
 
 ext {
 	set('springCloudVersion', "Greenwich.SR1")
+}
+
+task generateAPI(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+	// see https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
+	generatorName = "spring"
+	inputSpec = project.projectDir.toString() + "/../api/rest.yaml"
+	outputDir = project.projectDir.toString() + "/api"
+}
+
+build {
+	dependsOn generateAPI
 }
 
 dependencies {

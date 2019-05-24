@@ -26,13 +26,16 @@ export default {
   /*
   ** Global CSS
   */
-  css: [
+  css: [ 
+    "@/assets/bulmaOverrides.scss",
+    "@/assets/main.css"
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+      "@plugins/vue-meta"
   ],
 
   /*
