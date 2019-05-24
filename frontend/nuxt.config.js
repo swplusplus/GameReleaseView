@@ -1,31 +1,36 @@
-import pkg from './package'
+import pkg from "./package";
 
 export default {
-  mode: 'spa',
+    mode: "universal",
 
-  /*
-  ** Headers of the page
-  */
-  head: {
-    title: pkg.name,
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
-  },
+    /*
+     ** Headers of the page
+     */
+    head: {
+        title: pkg.name,
+        meta: [
+            { charset: "utf-8" },
+            {
+                name: "viewport",
+                content: "width=device-width, initial-scale=1"
+            },
+            {
+                hid: "description",
+                name: "description",
+                content: pkg.description
+            }
+        ],
+        link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    },
 
-  /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#fff' },
+    /*
+     ** Customize the progress-bar color
+     */
+    loading: { color: "#fff" },
 
-  /*
-  ** Global CSS
-  */
+    /*
+     ** Global CSS
+     */
   css: [ 
     "@/assets/bulmaOverrides.scss",
     "@/assets/main.css"
@@ -38,34 +43,33 @@ export default {
       "@plugins/vue-meta"
   ],
 
-  /*
-  ** Nuxt.js modules
-  */
-  modules: [
-    // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
-    '@nuxtjs/bulma',
-  ],
-
-  /*
-  ** Build configuration
-  */
-  build: {
-    postcss: {
-      preset: {
-        features: {
-          customProperties: false
-        }
-      }
-    },
     /*
-    ** You can extend webpack config here
-    */
-    extend(config, ctx) {
-    }
-  },
+     ** Nuxt.js modules
+     */
+    modules: [
+        // Doc:https://github.com/nuxt-community/modules/tree/master/packages/bulma
+        "@nuxtjs/bulma"
+    ],
 
-  server : {
-    port: 3000,
-    host: 'localhost'
-  }
-}
+    /*
+     ** Build configuration
+     */
+    build: {
+        postcss: {
+            preset: {
+                features: {
+                    customProperties: false
+                }
+            }
+        },
+        /*
+         ** You can extend webpack config here
+         */
+        extend(config, ctx) {}
+    },
+
+    server: {
+        port: 3000,
+        host: "localhost"
+    }
+};
