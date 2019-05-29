@@ -22,7 +22,7 @@ task generateAPI(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTa
 	// see https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
 	generatorName = "spring"
 	inputSpec = project.projectDir.toString() + "/../api/rest.yaml"
-	outputDir = project.projectDir.toString() + "/api"
+	outputDir = project.projectDir.toString()
 }
 
 build {
@@ -37,6 +37,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok:1.18.8'
 	annotationProcessor 'org.projectlombok:lombok:1.18.8'
 	runtimeOnly 'com.h2database:h2'
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-joda', version: '2.0.2'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	compile group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.1.0'
 }
 
 dependencyManagement {
