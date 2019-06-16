@@ -13,9 +13,12 @@ import javax.validation.constraints.*;
 /**
  * InlineResponse200Releases
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-05-29T11:36:40.831023800+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-06-16T15:29:24.456810500+02:00[Europe/Berlin]")
 
 public class InlineResponse200Releases   {
+  @JsonProperty("id")
+  private Long id;
+
   @JsonProperty("name")
   private String name;
 
@@ -24,6 +27,26 @@ public class InlineResponse200Releases   {
 
   @JsonProperty("date_to")
   private LocalDate dateTo;
+
+  public InlineResponse200Releases id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  */
+  @ApiModelProperty(value = "")
+
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   public InlineResponse200Releases name(String name) {
     this.name = name;
@@ -97,14 +120,15 @@ public class InlineResponse200Releases   {
       return false;
     }
     InlineResponse200Releases inlineResponse200Releases = (InlineResponse200Releases) o;
-    return Objects.equals(this.name, inlineResponse200Releases.name) &&
+    return Objects.equals(this.id, inlineResponse200Releases.id) &&
+        Objects.equals(this.name, inlineResponse200Releases.name) &&
         Objects.equals(this.dateFrom, inlineResponse200Releases.dateFrom) &&
         Objects.equals(this.dateTo, inlineResponse200Releases.dateTo);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, dateFrom, dateTo);
+    return Objects.hash(id, name, dateFrom, dateTo);
   }
 
   @Override
@@ -112,6 +136,7 @@ public class InlineResponse200Releases   {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineResponse200Releases {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
     sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");

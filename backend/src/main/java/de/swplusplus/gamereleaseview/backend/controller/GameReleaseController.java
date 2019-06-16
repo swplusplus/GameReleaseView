@@ -68,7 +68,7 @@ public class GameReleaseController {
         InlineResponse200 res = new InlineResponse200();
         for(GameRelease release : gameReleases) {
             InlineResponse200Releases resi = new InlineResponse200Releases();
-            resi.name(release.getGame().getName())
+            resi.id(release.getId()).name(release.getGame().getName())
                     .dateFrom(release.getReleaseDateRangeFromLocal())
                     .dateTo(release.getReleaseDateRangeToLocal());
             res.addReleasesItem(resi);
