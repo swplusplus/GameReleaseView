@@ -38,9 +38,13 @@ public class GameReleaseController {
     @RequestMapping(value = {"", "/"},
                     method = RequestMethod.GET)
     public InlineResponse200 Releases(@RequestParam(name = "from", required = false) @DateTimeFormat(pattern=DATE_FORMAT) Optional<String> dateFrom,
-                                      @RequestParam(name = "to", required = false) @DateTimeFormat(pattern=DATE_FORMAT) Optional<String> dateTo) {
+                                      @RequestParam(name = "to", required = false) @DateTimeFormat(pattern=DATE_FORMAT) Optional<String> dateTo,
+                                      @RequestParam(name = "with_unknown", required = false) Optional<Boolean> withUnknown,
+                                      @RequestParam(name = "exact_dates_only", required = false) Optional<Boolean> exactDatesOnly) {
         Date from = new Date();
         Date to = null;
+        boolean unknown = withUnknown.orElse(true);
+        boolean exact = exactDatesOnly.orElse(false);
 
         if (dateFrom.isPresent()) {
             try {
@@ -67,13 +71,17 @@ public class GameReleaseController {
 
         InlineResponse200 res = new InlineResponse200();
         for(GameRelease release : gameReleases) {
-            InlineResponse200Releases resi = new InlineResponse200Releases();
-            resi.id(release.getId()).name(release.getGame().getName())
-                    .dateFrom(release.getReleaseDateRangeFromLocal())
-                    .dateTo(release.getReleaseDateRangeToLocal())
-                    .unknownReleaseDate((release.getReleaseDateUnknown() == null ? false : release.getReleaseDateUnknown()))
-                    .originalReleaseString(release.getOriginalReleaseDateString());
-            res.addReleasesItem(resi);
+            if (unknown || !release.getReleaseDateUnknown()) {
+                if (!exact || release.getReleaseDateRangeFrom().equals(release.getReleaseDateRangeTo())) {
+                    InlineResponse200Releases resi = new InlineResponse200Releases();
+                    resi.id(release.getId()).name(release.getGame().getName())
+                            .dateFrom(release.getReleaseDateRangeFromLocal())
+                            .dateTo(release.getReleaseDateRangeToLocal())
+                            .unknownReleaseDate((release.getReleaseDateUnknown() == null ? false : release.getReleaseDateUnknown()))
+                            .originalReleaseString(release.getOriginalReleaseDateString());
+                    res.addReleasesItem(resi);
+                }
+            }
         }
         return res;
     }
