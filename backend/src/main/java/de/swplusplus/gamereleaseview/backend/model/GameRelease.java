@@ -5,6 +5,10 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.util.Pair;
 
 import javax.persistence.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Entity
@@ -15,7 +19,9 @@ public class GameRelease {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long platformInternalId;
-    private Date releaseDateRangeFrom;
+    @Temporal(TemporalType.DATE)
+    Date releaseDateRangeFrom;
+    @Temporal(TemporalType.DATE)
     private Date releaseDateRangeTo;
     @ManyToOne
     private Game game;
@@ -39,5 +45,13 @@ public class GameRelease {
         this.releaseDateRangeTo = releaseDateRange.getSecond();
         this.game = game;
         this.platform = platform;
+    }
+
+    public LocalDate getReleaseDateRangeFromLocal() {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(getReleaseDateRangeFrom().getTime()), ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public LocalDate getReleaseDateRangeToLocal() {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(getReleaseDateRangeTo().getTime()), ZoneId.systemDefault()).toLocalDate();
     }
 }

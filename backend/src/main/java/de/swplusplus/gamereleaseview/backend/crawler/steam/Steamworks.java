@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 // https://store.steampowered.com/tagdata/gettaggames/de/21?name=Abenteur&cc=DE&l=german
 
 
-@Service
+//@Service
 public class Steamworks {
     private final String PLATFORM_NAME = "Steam";
     private final int NUMBER_OF_REQUESTS_BEFORE_WAIT = 200;
