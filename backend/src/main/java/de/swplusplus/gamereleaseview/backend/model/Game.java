@@ -26,4 +26,14 @@ class Game {
     public Game(String name) {
         this.name = name;
     }
+
+    public void assignGameRelease(GameRelease rel) {
+        for (GameRelease r : gameReleases) {
+            if (r.getPlatform() == rel.getPlatform()) {
+                gameReleases.remove(r);
+                break;
+            }
+        }
+        gameReleases.add(rel);
+    }
 }

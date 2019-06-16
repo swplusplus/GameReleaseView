@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 // https://store.steampowered.com/tagdata/gettaggames/de/21?name=Abenteur&cc=DE&l=german
 
 
-//@Service
+@Service
 public class Steamworks {
     private final String PLATFORM_NAME = "Steam";
     private final int NUMBER_OF_REQUESTS_BEFORE_WAIT = 200;
@@ -74,7 +74,7 @@ public class Steamworks {
         filterKnownApps(appIds);
         filterBlacklistedApps(appIds);
 
-        logger.info("processing {} new apps from {}", appIds.getApplist().getApps().size(), PLATFORM_NAME);
+        logger.info("processing {} unreleased apps from {}", appIds.getApplist().getApps().size(), PLATFORM_NAME);
 
         int numberRequest = 0;
 
@@ -90,7 +90,7 @@ public class Steamworks {
                     try {
                         GameRelease gr = new GameRelease(dateParser.parseDate(strDate, appDetail.getData().getRelease_date().isComingSoon()), game, platform, app.getAppid());
                         gr.setPlatformInternalId(app.getAppid());
-                        game.getGameReleases().add(gr);
+                        game.assignGameRelease(gr);
                         gameRepository.save(game);
                         gameReleaseRepository.save(gr);
                     } catch (ParseException e) {
@@ -115,7 +115,7 @@ public class Steamworks {
 
     private void filterKnownApps(AppList appIds) {
         //List<GameRelease> knownGames = gameReleaseRepository.findAllByPlatformName(PLATFORM_NAME);
-        Iterable<GameRelease> knownGames = gameReleaseRepository.findAll();
+        Iterable<GameRelease> knownGames = gameReleaseRepository.findByReleaseDateRangeFromBeforeAndReleaseDateRangeToBefore(new Date());
         Map<Long, String> knownGamesMap = new HashMap<>();
         knownGames.forEach(kg -> knownGamesMap.put(kg.getPlatformInternalId(), kg.getGame().getName()));
         appIds.getApplist().getApps().removeIf(app -> knownGamesMap.containsKey(app.getAppid()));
