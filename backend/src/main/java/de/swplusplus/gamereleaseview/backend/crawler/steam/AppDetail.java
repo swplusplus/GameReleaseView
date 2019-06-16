@@ -18,6 +18,6 @@ class AppData {
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 class ReleaseData {
-    boolean comingSoon;
+    boolean coming_soon;
     String date;
 }

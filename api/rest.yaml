@@ -43,5 +43,9 @@ paths:
                         date_to:
                           type: string
                           format: date
+                        unknown_release_date:
+                          type: boolean
+                        original_release_string:
+                          type: string
 
 

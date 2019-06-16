@@ -27,6 +27,8 @@ public class GameRelease {
     private Game game;
     @ManyToOne
     private Platform platform;
+    private Boolean releaseDateUnknown;
+    private String originalReleaseDateString;
 
     public GameRelease() {
     }

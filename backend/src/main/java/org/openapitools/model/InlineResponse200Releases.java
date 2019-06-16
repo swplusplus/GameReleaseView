@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 /**
  * InlineResponse200Releases
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-06-16T15:29:24.456810500+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-06-16T16:34:32.932323800+02:00[Europe/Berlin]")
 
 public class InlineResponse200Releases   {
   @JsonProperty("id")
@@ -27,6 +27,12 @@ public class InlineResponse200Releases   {
 
   @JsonProperty("date_to")
   private LocalDate dateTo;
+
+  @JsonProperty("unknown_release_date")
+  private Boolean unknownReleaseDate;
+
+  @JsonProperty("original_release_string")
+  private String originalReleaseString;
 
   public InlineResponse200Releases id(Long id) {
     this.id = id;
@@ -110,6 +116,46 @@ public class InlineResponse200Releases   {
     this.dateTo = dateTo;
   }
 
+  public InlineResponse200Releases unknownReleaseDate(Boolean unknownReleaseDate) {
+    this.unknownReleaseDate = unknownReleaseDate;
+    return this;
+  }
+
+  /**
+   * Get unknownReleaseDate
+   * @return unknownReleaseDate
+  */
+  @ApiModelProperty(value = "")
+
+
+  public Boolean getUnknownReleaseDate() {
+    return unknownReleaseDate;
+  }
+
+  public void setUnknownReleaseDate(Boolean unknownReleaseDate) {
+    this.unknownReleaseDate = unknownReleaseDate;
+  }
+
+  public InlineResponse200Releases originalReleaseString(String originalReleaseString) {
+    this.originalReleaseString = originalReleaseString;
+    return this;
+  }
+
+  /**
+   * Get originalReleaseString
+   * @return originalReleaseString
+  */
+  @ApiModelProperty(value = "")
+
+
+  public String getOriginalReleaseString() {
+    return originalReleaseString;
+  }
+
+  public void setOriginalReleaseString(String originalReleaseString) {
+    this.originalReleaseString = originalReleaseString;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -123,12 +169,14 @@ public class InlineResponse200Releases   {
     return Objects.equals(this.id, inlineResponse200Releases.id) &&
         Objects.equals(this.name, inlineResponse200Releases.name) &&
         Objects.equals(this.dateFrom, inlineResponse200Releases.dateFrom) &&
-        Objects.equals(this.dateTo, inlineResponse200Releases.dateTo);
+        Objects.equals(this.dateTo, inlineResponse200Releases.dateTo) &&
+        Objects.equals(this.unknownReleaseDate, inlineResponse200Releases.unknownReleaseDate) &&
+        Objects.equals(this.originalReleaseString, inlineResponse200Releases.originalReleaseString);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, dateFrom, dateTo);
+    return Objects.hash(id, name, dateFrom, dateTo, unknownReleaseDate, originalReleaseString);
   }
 
   @Override
@@ -140,6 +188,8 @@ public class InlineResponse200Releases   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    dateFrom: ").append(toIndentedString(dateFrom)).append("\n");
     sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");
+    sb.append("    unknownReleaseDate: ").append(toIndentedString(unknownReleaseDate)).append("\n");
+    sb.append("    originalReleaseString: ").append(toIndentedString(originalReleaseString)).append("\n");
     sb.append("}");
     return sb.toString();
   }

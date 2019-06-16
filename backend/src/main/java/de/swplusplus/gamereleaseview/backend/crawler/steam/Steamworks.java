@@ -88,13 +88,15 @@ public class Steamworks {
                 if (appDetail.isSuccess()) {
                     String strDate = appDetail.getData().getRelease_date().getDate();
                     try {
-                        GameRelease gr = new GameRelease(dateParser.parseDate(strDate, appDetail.getData().getRelease_date().isComingSoon()), game, platform, app.getAppid());
+                        GameRelease gr = new GameRelease(dateParser.parseDate(strDate, appDetail.getData().getRelease_date().isComing_soon()), game, platform, app.getAppid());
                         gr.setPlatformInternalId(app.getAppid());
+                        gr.setReleaseDateUnknown(dateParser.isComingSoonButUnknown(strDate, appDetail.getData().getRelease_date().isComing_soon()));
+                        gr.setOriginalReleaseDateString(strDate);
                         game.assignGameRelease(gr);
                         gameRepository.save(game);
                         gameReleaseRepository.save(gr);
                     } catch (ParseException e) {
-                        // ignore
+                        logger.error(app.toString() + appDetail.toString() + " ### " + e.toString());
                     }
                 } else {
                     Blacklist bl = new Blacklist(game, platform, app.getAppid());

@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-06-16T15:29:24.456810500+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-06-16T16:34:32.932323800+02:00[Europe/Berlin]")
 
 @Validated
 @Api(value = "releases", description = "the releases API")
@@ -47,7 +47,7 @@ public interface ReleasesApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"releases\" : [ {    \"name\" : \"name\",    \"id\" : 0,    \"date_to\" : \"2000-01-23\",    \"date_from\" : \"2000-01-23\"  }, {    \"name\" : \"name\",    \"id\" : 0,    \"date_to\" : \"2000-01-23\",    \"date_from\" : \"2000-01-23\"  } ]}");
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"releases\" : [ {    \"name\" : \"name\",    \"id\" : 0,    \"date_to\" : \"2000-01-23\",    \"unknown_release_date\" : true,    \"original_release_string\" : \"original_release_string\",    \"date_from\" : \"2000-01-23\"  }, {    \"name\" : \"name\",    \"id\" : 0,    \"date_to\" : \"2000-01-23\",    \"unknown_release_date\" : true,    \"original_release_string\" : \"original_release_string\",    \"date_from\" : \"2000-01-23\"  } ]}");
                     break;
                 }
             }

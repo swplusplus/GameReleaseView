@@ -17,6 +17,14 @@ class DateParser {
 
     Pair<Date, Date> parseDate(String strDate, boolean isFlaggedComingSoon) throws ParseException {
 
+        // This is the official steam date format, and the only one allowed to be in the past (actually released).
+        try {
+            Date d = new SimpleDateFormat("d. MMM yyyy", Locale.getDefault()).parse(strDate);
+            return Pair.of(d, d);
+        } catch (ParseException e) {
+            // ignore
+        }
+
         try {
             strDate = strDate.trim();
 
@@ -24,32 +32,24 @@ class DateParser {
                 add("d MMM. yyyy");
                 add("d MMM, yyyy");
                 add("MMM, d\'th\', yyyy");
+                add("MMM yyyy");
+                add("MMM - yyyy");
                 add("yyyy");
             }};
             for (String format : singleDateFormats) {
                 try {
-                    Date d = new SimpleDateFormat(format, new Locale("C")).parse(strDate);
-                    return Pair.of(d, d);
+                    Date d = new SimpleDateFormat(format, Locale.getDefault()).parse(strDate);
+                    if (d.after(new Date())) {
+                        return Pair.of(d, d);
+                    }
                 } catch (ParseException e) {
                     // ignore
                 }
             }
 
-            if (strDate.toLowerCase().contains("coming soon")
-                    || strDate.toLowerCase().contains("expected soon!")
-                    || (strDate.trim().isEmpty() && isFlaggedComingSoon)) {
-                GregorianCalendar calendar = new GregorianCalendar();
-                calendar.clear(Calendar.HOUR);
-                calendar.clear(Calendar.MINUTE);
-                calendar.clear(Calendar.SECOND);
-                calendar.clear(Calendar.MILLISECOND);
-                Date d1 = calendar.getTime();
-                calendar.add(Calendar.MONTH, COMING_SOON_MONTH);
-                Date d2 = calendar.getTime();
-                return Pair.of(d1, d2);
-            }
 
-            if (strDate.toLowerCase().matches("q[1234] \\d{4}")) {
+
+            if (strDate.toLowerCase().matches("q[1234].*\\d{4}.*")) {
                 Map<String, Integer> startDates = new HashMap<>() {{
                     put("q1", 0);
                     put("q2", 3);
@@ -64,16 +64,56 @@ class DateParser {
                     d1 = calendar.getTime();
                     calendar.add(Calendar.MONTH, 3);
                     Date d2 = calendar.getTime();
-                    return Pair.of(d1, d2);
+                    // check that we are still in the future
+                    if (d2.after(new Date())) {
+                        return Pair.of(d1, d2);
+                    }
                 } catch (ParseException e) {
                     // ignore
                 }
             }
 
+            if (isComingSoonButUnknown(strDate, isFlaggedComingSoon)) {
+                GregorianCalendar calendar = new GregorianCalendar();
+                calendar.clear(Calendar.HOUR);
+                calendar.clear(Calendar.MINUTE);
+                calendar.clear(Calendar.SECOND);
+                calendar.clear(Calendar.MILLISECOND);
+                Date d1 = calendar.getTime();
+                calendar.add(Calendar.MONTH, COMING_SOON_MONTH);
+                Date d2 = calendar.getTime();
+                return Pair.of(d1, d2);
+            }
+
         } catch (Exception e) {
             // ignore
         }
-        logger.error("unhandled date format: " + strDate);
         throw new ParseException("unhandled date format: " + strDate, 0);
+    }
+
+    public boolean isComingSoonButUnknown(String strDate, boolean isFlaggedComingSoon) {
+        final List<String> blacklistedPhrases = new ArrayList<>() {{
+            add("2018");
+            add("2017");
+            add("2016");
+            add("2015");
+            add("2014");
+            add("2013");
+            add("2012");
+            add("2011");
+            add("2010");
+        }};
+
+        if (isFlaggedComingSoon) {
+            boolean blacklisted = false;
+            for (String ph : blacklistedPhrases) {
+                if (strDate.toLowerCase().contains(ph)) {
+                    blacklisted = true;
+                    break;
+                }
+            }
+            return !blacklisted;
+        }
+        return false;
     }
 }
