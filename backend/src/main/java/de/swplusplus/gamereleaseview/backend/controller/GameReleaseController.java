@@ -48,7 +48,7 @@ public class GameReleaseController {
 
         if (dateFrom.isPresent()) {
             try {
-                from = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(dateFrom.get());
+                from = new SimpleDateFormat(DATE_FORMAT, Locale.UK).parse(dateFrom.get());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -56,7 +56,7 @@ public class GameReleaseController {
 
         if (dateTo.isPresent()) {
             try {
-                to = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).parse(dateTo.get());
+                to = new SimpleDateFormat(DATE_FORMAT, Locale.UK).parse(dateTo.get());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
