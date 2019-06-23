@@ -19,7 +19,7 @@ class DateParser {
 
         // This is the official steam date format, and the only one allowed to be in the past (actually released).
         try {
-            Date d = new SimpleDateFormat("d. MMM yyyy", Locale.getDefault()).parse(strDate);
+            Date d = new SimpleDateFormat("d MMM, yyyy", Locale.US).parse(strDate);
             return Pair.of(d, d);
         } catch (ParseException e) {
             // ignore
@@ -30,7 +30,8 @@ class DateParser {
 
             List<String> singleDateFormats = new ArrayList<>() {{
                 add("d MMM. yyyy");
-                add("d MMM, yyyy");
+                add("d MMM yyyy");
+                add("d. MMM, yyyy");
                 add("MMM, d\'th\', yyyy");
                 add("MMM yyyy");
                 add("MMM - yyyy");
@@ -38,7 +39,7 @@ class DateParser {
             }};
             for (String format : singleDateFormats) {
                 try {
-                    Date d = new SimpleDateFormat(format, Locale.getDefault()).parse(strDate);
+                    Date d = new SimpleDateFormat(format, Locale.US).parse(strDate);
                     if (d.after(new Date())) {
                         return Pair.of(d, d);
                     }
