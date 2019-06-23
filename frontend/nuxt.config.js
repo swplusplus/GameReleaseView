@@ -31,17 +31,18 @@ export default {
     /*
      ** Global CSS
      */
-  css: [ 
-    "@/assets/bulmaOverrides.scss",
-    "@/assets/main.css"
-  ],
+    css: [
+        "@/assets/bulmaOverrides.scss",
+        "@/assets/main.css"
+    ],
 
-  /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: [
-      "@plugins/vue-meta"
-  ],
+    /*
+    ** Plugins to load before mounting the App
+    */
+    plugins: [
+        "@plugins/vue-meta",
+        "@plugins/formatDate"
+    ],
 
     /*
      ** Nuxt.js modules
@@ -65,7 +66,7 @@ export default {
         /*
          ** You can extend webpack config here
          */
-        extend(config, ctx) {}
+        extend(config, ctx) { }
     },
 
     server: {

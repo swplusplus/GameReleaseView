@@ -18,8 +18,7 @@ export const mutations = {
 
 export const actions = {
     nuxtServerInit(vuexContext, context) {
-        console.log("nuxtServerInit");
-        var targetDate = moment.utc();
+        var targetDate = moment.utc().startOf("day");
         targetDate.add(1, "months");
         const request = "http://localhost:8080/releases?exact_dates_only=true&to=" + targetDate.year() + "-" + pad(targetDate.month() + 1) + "-" + pad(targetDate.date());
         return axios.get(request)
@@ -27,8 +26,8 @@ export const actions = {
                 var releasesArray = [];
                 for (const release of res.data.releases) {
                     releasesArray.push({
-                        dateFrom: moment.utc(release.date_from),
-                        dateTo: moment.utc(release.date_to),
+                        dateFrom: moment.utc(release.date_from).startOf("day"),
+                        dateTo: moment.utc(release.date_to).startOf("day"),
                         name: release.name,
                         id: release.id,
                         originalDate: release.original_release_string
@@ -48,9 +47,7 @@ export const getters = {
         return state.releases;
     },
     getReleaseByDate: (state) => (date) => {
-        console.log(date);
-        const filtered = state.releases.filter(release => release.dateFrom <= date && release.dateTo >= date);
-        console.log(filtered);
+        var filtered = state.releases.filter(release => { return moment(release.dateFrom) <= date && moment(release.dateTo) >= date });
         return filtered;
     }
 }
