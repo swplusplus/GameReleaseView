@@ -88,7 +88,8 @@ public class Steamworks {
                 if (appDetail.isSuccess()) {
                     String strDate = appDetail.getData().getRelease_date().getDate();
                     try {
-                        GameRelease gr = new GameRelease(dateParser.parseDate(strDate, appDetail.getData().getRelease_date().isComing_soon()), game, platform, app.getAppid());
+                        Pair<Date, Date> releaseDate = dateParser.parseDate(strDate, appDetail.getData().getRelease_date().isComing_soon());
+                        GameRelease gr = ensureGameRelease(releaseDate, game, platform, app.getAppid());
                         gr.setPlatformInternalId(app.getAppid());
                         gr.setReleaseDateUnknown(dateParser.isComingSoonButUnknown(strDate, appDetail.getData().getRelease_date().isComing_soon()));
                         gr.setOriginalReleaseDateString(strDate);
@@ -113,6 +114,14 @@ public class Steamworks {
                 }
             }
         }
+    }
+
+    private GameRelease ensureGameRelease(Pair<Date, Date> releaseDate, Game game, Platform platform, Long appid) {
+        GameRelease gr = gameReleaseRepository.findByGameIdAndPlatformNameAndPlatformInternalId(game.getId(), platform.getName(), appid);
+        if (gr == null) {
+            gr = new GameRelease(releaseDate, game, platform, appid);
+        }
+        return gr;
     }
 
     private void filterKnownApps(AppList appIds) {

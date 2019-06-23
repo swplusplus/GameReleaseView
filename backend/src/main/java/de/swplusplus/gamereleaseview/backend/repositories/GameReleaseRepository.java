@@ -25,4 +25,6 @@ public interface GameReleaseRepository extends CrudRepository<GameRelease, Long>
         return findByReleaseDateRangeFromBeforeAndReleaseDateRangeToBefore(to, to);
     }
     public List<GameRelease> findByReleaseDateRangeFromBeforeAndReleaseDateRangeToBefore(Date to, Date to1);
+
+    public GameRelease findByGameIdAndPlatformNameAndPlatformInternalId(Long gameId, String platformId, Long platformInternalId);
 }
