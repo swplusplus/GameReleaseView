@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <section class="hero">
-      <section class="section" v-for="index in 31" :key="index">
-        <oneday :date="computeDate(index-1)"/>
-      </section>
+  <section>
+    <tileCalendar :month="currentMonth()" />
+    <section class="section" v-for="index in 31" :key="index">
+      <oneday :date="computeDate(index-1)" />
     </section>
-  </div>
+  </section>
 </template>
 
 <script>
 import oneday from "@/components/OneDay";
+import tileCalendar from "@/components/TileCalendar";
 import moment from "moment";
 export default {
   metaInfo: {
@@ -18,7 +18,8 @@ export default {
     }
   },
   components: {
-    oneday
+    oneday,
+    tileCalendar
   },
   methods: {
     computeDate(daysFromToday) {
@@ -26,6 +27,11 @@ export default {
         .utc()
         .startOf("day")
         .add(daysFromToday, "days");
+    },
+    currentMonth() {
+      return moment()
+        .utc()
+        .date(1);
     }
   }
 };
