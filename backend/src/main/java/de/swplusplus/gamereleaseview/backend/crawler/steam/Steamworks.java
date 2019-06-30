@@ -80,38 +80,44 @@ public class Steamworks {
 
         for (AppId app : appIds.getApplist().getApps()) {
             Game game = ensureGame(app);
-            final String qString = String.format("https://store.steampowered.com/api/appdetails?appids=%d&filters=release_date", app.getAppid());
-            final ParameterizedTypeReference<Map<Long, AppDetail>> ptr = new ParameterizedTypeReference<>(){};
-            final ResponseEntity<Map<Long, AppDetail>> re = restTemplate.exchange(qString, HttpMethod.GET, null, ptr);
-            if (re.getBody() != null) {
-                AppDetail appDetail = re.getBody().entrySet().iterator().next().getValue();
-                if (appDetail.isSuccess()) {
-                    String strDate = appDetail.getData().getRelease_date().getDate();
-                    try {
-                        Pair<Date, Date> releaseDate = dateParser.parseDate(strDate, appDetail.getData().getRelease_date().isComing_soon());
-                        GameRelease gr = ensureGameRelease(releaseDate, game, platform, app.getAppid());
-                        gr.setPlatformInternalId(app.getAppid());
-                        gr.setReleaseDateUnknown(dateParser.isComingSoonButUnknown(strDate, appDetail.getData().getRelease_date().isComing_soon()));
-                        gr.setOriginalReleaseDateString(strDate);
-                        game.assignGameRelease(gr);
-                        gameRepository.save(game);
-                        gameReleaseRepository.save(gr);
-                    } catch (ParseException e) {
-                        logger.error(app.toString() + appDetail.toString() + " ### " + e.toString());
+            try {
+                final String qString = String.format("https://store.steampowered.com/api/appdetails?appids=%d&filters=release_date", app.getAppid());
+                final ParameterizedTypeReference<Map<Long, AppDetail>> ptr = new ParameterizedTypeReference<>() {
+                };
+                final ResponseEntity<Map<Long, AppDetail>> re = restTemplate.exchange(qString, HttpMethod.GET, null, ptr);
+                if (re.getBody() != null) {
+                    AppDetail appDetail = re.getBody().entrySet().iterator().next().getValue();
+                    if (appDetail.isSuccess()) {
+                        String strDate = appDetail.getData().getRelease_date().getDate();
+                        try {
+                            Pair<Date, Date> releaseDate = dateParser.parseDate(strDate, appDetail.getData().getRelease_date().isComing_soon());
+                            GameRelease gr = ensureGameRelease(releaseDate, game, platform, app.getAppid());
+                            gr.setPlatformInternalId(app.getAppid());
+                            gr.setReleaseDateUnknown(dateParser.isComingSoonButUnknown(strDate, appDetail.getData().getRelease_date().isComing_soon()));
+                            gr.setOriginalReleaseDateString(strDate);
+                            game.assignGameRelease(gr);
+                            gameRepository.save(game);
+                            gameReleaseRepository.save(gr);
+                        } catch (ParseException e) {
+                            logger.error(app.toString() + appDetail.toString() + " ### " + e.toString());
+                        }
+                    } else {
+                        Blacklist bl = new Blacklist(game, platform, app.getAppid());
+                        blacklistRepository.save(bl);
                     }
-                } else {
-                    Blacklist bl = new Blacklist(game, platform, app.getAppid());
-                    blacklistRepository.save(bl);
                 }
-            }
-            ++numberRequest;
-            if (numberRequest%NUMBER_OF_REQUESTS_BEFORE_WAIT==0) {
-                logger.info("waiting for {} seconds every {} requests (now on request {})...", WAIT_FOR_SECONDS, NUMBER_OF_REQUESTS_BEFORE_WAIT, numberRequest);
-                try {
-                    TimeUnit.SECONDS.sleep(WAIT_FOR_SECONDS);
-                } catch (InterruptedException e) {
-                    logger.error(e.toString());
+                ++numberRequest;
+                if (numberRequest % NUMBER_OF_REQUESTS_BEFORE_WAIT == 0) {
+                    logger.info("waiting for {} seconds every {} requests (now on request {})...", WAIT_FOR_SECONDS, NUMBER_OF_REQUESTS_BEFORE_WAIT, numberRequest);
+                    try {
+                        TimeUnit.SECONDS.sleep(WAIT_FOR_SECONDS);
+                    } catch (InterruptedException e) {
+                        logger.error(e.toString());
+                    }
                 }
+            } catch (Exception e) {
+                Blacklist bl = new Blacklist(game, platform, app.getAppid());
+                blacklistRepository.save(bl);
             }
         }
     }
