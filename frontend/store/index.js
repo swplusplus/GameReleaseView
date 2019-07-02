@@ -47,7 +47,9 @@ export const getters = {
         return state.releases;
     },
     getReleaseByDate: (state) => (date) => {
-        var filtered = state.releases.filter(release => { return moment(release.dateFrom) <= date && moment(release.dateTo) >= date });
+        var filtered = state.releases.filter(release => {
+            return moment(release.dateFrom) <= date && moment(release.dateTo) >= date
+        });
         return filtered;
     }
 }

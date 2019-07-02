@@ -1,9 +1,6 @@
 <template>
   <section>
     <tileCalendar :month="currentMonth()" />
-    <section class="section" v-for="index in 31" :key="index">
-      <oneday :date="computeDate(index-1)" />
-    </section>
   </section>
 </template>
 

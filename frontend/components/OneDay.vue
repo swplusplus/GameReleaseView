@@ -1,17 +1,7 @@
 <template>
-  <div class="card">
-    <header class="card-header">
-      <p class="card-header-title">{{date | formatDate}}</p>
-    </header>
-    <div class="card-content">
-      <div class="content">
-        <p
-          class="content"
-          v-for="(release, index) of releases"
-          :key="index"
-        >{{release.name}} {{release.dateFrom | formatDate}} - {{release.dateTo | formatDate}} {{release.originalDate}}</p>
-      </div>
-    </div>
+  <div class="content">
+    <h5 class="title-is-5">{{date | formatDate}}</h5>
+    <p class="content" v-for="(release, index) of releases" :key="index">{{release.name}}</p>
   </div>
 </template>
 
