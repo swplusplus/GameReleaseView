@@ -3,9 +3,7 @@ package de.swplusplus.gamereleaseview.backend.controller;
 import de.swplusplus.gamereleaseview.backend.model.Category;
 import de.swplusplus.gamereleaseview.backend.model.GameRelease;
 import de.swplusplus.gamereleaseview.backend.repositories.GameReleaseRepository;
-import org.openapitools.model.InlineResponse200;
-import org.openapitools.model.InlineResponse200Languages;
-import org.openapitools.model.InlineResponse200Releases;
+import org.openapitools.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -81,17 +79,19 @@ public class GameReleaseController {
                             .dateTo(release.getReleaseDateRangeToLocal())
                             .unknownReleaseDate((release.getReleaseDateUnknown() == null ? false : release.getReleaseDateUnknown()))
                             .originalReleaseString(release.getOriginalReleaseDateString())
-                            .requiredAge(release.getGame().getRequiredAge())
                             .shortDescription(release.getGame().getShortDescription())
                             .primaryImage(release.getGame().getLinkToImage())
                             .website(release.getGame().getLinkToWebsite())
                             .backgroundImage(release.getGame().getLinkToBackgroundImage());
 
-                    release.getGame().getCategories().forEach((cat) -> {resi.addCategoriesItem(cat.getDescription());});
-                    release.getGame().getDevelopers().forEach((dev) -> {resi.addDevelopersItem(dev.getName());});
-                    release.getGame().getGenres().forEach((genre)-> {resi.addGenresItem(genre.getName());});
-                    release.getGame().getLanguages().forEach((lang)-> {resi.addLanguagesItem(new InlineResponse200Languages().language(lang.getLanguage()).ui(lang.getUi()).spoken(lang.getSpoken()).subtitles(lang.getSubtitles()));});
+                    InlineResponse200FilterAttrs filterAttrs = new InlineResponse200FilterAttrs();
+                    release.getGame().getCategories().forEach((cat) -> {filterAttrs.addCategoriesItem(cat.getDescription());});
+                    release.getGame().getDevelopers().forEach((dev) -> {filterAttrs.addDevelopersItem(dev.getName());});
+                    release.getGame().getGenres().forEach((genre)-> {filterAttrs.addGenresItem(genre.getName());});
+                    release.getGame().getLanguages().forEach((lang)-> {filterAttrs.addLanguagesItem(new InlineResponse200FilterAttrsLanguages().language(lang.getLanguage()).ui(lang.getUi()).spoken(lang.getSpoken()).subtitles(lang.getSubtitles()));});
+                    filterAttrs.setRequiredAge(release.getGame().getRequiredAge());
 
+                    resi.setFilterAttrs(filterAttrs);
                     res.addReleasesItem(resi);
                 }
             }

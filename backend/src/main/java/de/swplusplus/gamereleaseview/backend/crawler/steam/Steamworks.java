@@ -127,7 +127,7 @@ public class Steamworks {
                         logger.error(e.toString());
                     }
                 }
-            } catch (org.springframework.web.client.HttpClientErrorException httpe) {
+            } catch (org.springframework.web.client.HttpClientErrorException httpe){
                 // too many request etc.
                 logger.error("ABORTING for now " + app.toString() + " ### " + httpe.toString());
                 break;

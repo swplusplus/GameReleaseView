@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import org.openapitools.model.InlineResponse200Languages;
+import org.openapitools.model.InlineResponse200FilterAttrs;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -16,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * InlineResponse200Releases
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-14T15:14:17.707425200+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-14T15:56:48.647404900+02:00[Europe/Berlin]")
 
 public class InlineResponse200Releases   {
   @JsonProperty("id")
@@ -37,37 +35,17 @@ public class InlineResponse200Releases   {
   @JsonProperty("original_release_string")
   private String originalReleaseString;
 
-  @JsonProperty("required_age")
-  private Long requiredAge;
-
   @JsonProperty("short_description")
   private String shortDescription;
 
-  @JsonProperty("languages")
-  @Valid
-  private List<InlineResponse200Languages> languages = null;
+  @JsonProperty("filter_attrs")
+  private InlineResponse200FilterAttrs filterAttrs = null;
 
   @JsonProperty("primary_image")
   private String primaryImage;
 
   @JsonProperty("website")
   private String website;
-
-  @JsonProperty("developers")
-  @Valid
-  private List<String> developers = null;
-
-  @JsonProperty("publishers")
-  @Valid
-  private List<String> publishers = null;
-
-  @JsonProperty("categories")
-  @Valid
-  private List<String> categories = null;
-
-  @JsonProperty("genres")
-  @Valid
-  private List<String> genres = null;
 
   @JsonProperty("background_image")
   private String backgroundImage;
@@ -194,26 +172,6 @@ public class InlineResponse200Releases   {
     this.originalReleaseString = originalReleaseString;
   }
 
-  public InlineResponse200Releases requiredAge(Long requiredAge) {
-    this.requiredAge = requiredAge;
-    return this;
-  }
-
-  /**
-   * Get requiredAge
-   * @return requiredAge
-  */
-  @ApiModelProperty(value = "")
-
-
-  public Long getRequiredAge() {
-    return requiredAge;
-  }
-
-  public void setRequiredAge(Long requiredAge) {
-    this.requiredAge = requiredAge;
-  }
-
   public InlineResponse200Releases shortDescription(String shortDescription) {
     this.shortDescription = shortDescription;
     return this;
@@ -234,33 +192,25 @@ public class InlineResponse200Releases   {
     this.shortDescription = shortDescription;
   }
 
-  public InlineResponse200Releases languages(List<InlineResponse200Languages> languages) {
-    this.languages = languages;
-    return this;
-  }
-
-  public InlineResponse200Releases addLanguagesItem(InlineResponse200Languages languagesItem) {
-    if (this.languages == null) {
-      this.languages = new ArrayList<>();
-    }
-    this.languages.add(languagesItem);
+  public InlineResponse200Releases filterAttrs(InlineResponse200FilterAttrs filterAttrs) {
+    this.filterAttrs = filterAttrs;
     return this;
   }
 
   /**
-   * Get languages
-   * @return languages
+   * Get filterAttrs
+   * @return filterAttrs
   */
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public List<InlineResponse200Languages> getLanguages() {
-    return languages;
+  public InlineResponse200FilterAttrs getFilterAttrs() {
+    return filterAttrs;
   }
 
-  public void setLanguages(List<InlineResponse200Languages> languages) {
-    this.languages = languages;
+  public void setFilterAttrs(InlineResponse200FilterAttrs filterAttrs) {
+    this.filterAttrs = filterAttrs;
   }
 
   public InlineResponse200Releases primaryImage(String primaryImage) {
@@ -303,118 +253,6 @@ public class InlineResponse200Releases   {
     this.website = website;
   }
 
-  public InlineResponse200Releases developers(List<String> developers) {
-    this.developers = developers;
-    return this;
-  }
-
-  public InlineResponse200Releases addDevelopersItem(String developersItem) {
-    if (this.developers == null) {
-      this.developers = new ArrayList<>();
-    }
-    this.developers.add(developersItem);
-    return this;
-  }
-
-  /**
-   * Get developers
-   * @return developers
-  */
-  @ApiModelProperty(value = "")
-
-
-  public List<String> getDevelopers() {
-    return developers;
-  }
-
-  public void setDevelopers(List<String> developers) {
-    this.developers = developers;
-  }
-
-  public InlineResponse200Releases publishers(List<String> publishers) {
-    this.publishers = publishers;
-    return this;
-  }
-
-  public InlineResponse200Releases addPublishersItem(String publishersItem) {
-    if (this.publishers == null) {
-      this.publishers = new ArrayList<>();
-    }
-    this.publishers.add(publishersItem);
-    return this;
-  }
-
-  /**
-   * Get publishers
-   * @return publishers
-  */
-  @ApiModelProperty(value = "")
-
-
-  public List<String> getPublishers() {
-    return publishers;
-  }
-
-  public void setPublishers(List<String> publishers) {
-    this.publishers = publishers;
-  }
-
-  public InlineResponse200Releases categories(List<String> categories) {
-    this.categories = categories;
-    return this;
-  }
-
-  public InlineResponse200Releases addCategoriesItem(String categoriesItem) {
-    if (this.categories == null) {
-      this.categories = new ArrayList<>();
-    }
-    this.categories.add(categoriesItem);
-    return this;
-  }
-
-  /**
-   * Get categories
-   * @return categories
-  */
-  @ApiModelProperty(value = "")
-
-
-  public List<String> getCategories() {
-    return categories;
-  }
-
-  public void setCategories(List<String> categories) {
-    this.categories = categories;
-  }
-
-  public InlineResponse200Releases genres(List<String> genres) {
-    this.genres = genres;
-    return this;
-  }
-
-  public InlineResponse200Releases addGenresItem(String genresItem) {
-    if (this.genres == null) {
-      this.genres = new ArrayList<>();
-    }
-    this.genres.add(genresItem);
-    return this;
-  }
-
-  /**
-   * Get genres
-   * @return genres
-  */
-  @ApiModelProperty(value = "")
-
-
-  public List<String> getGenres() {
-    return genres;
-  }
-
-  public void setGenres(List<String> genres) {
-    this.genres = genres;
-  }
-
   public InlineResponse200Releases backgroundImage(String backgroundImage) {
     this.backgroundImage = backgroundImage;
     return this;
@@ -451,21 +289,16 @@ public class InlineResponse200Releases   {
         Objects.equals(this.dateTo, inlineResponse200Releases.dateTo) &&
         Objects.equals(this.unknownReleaseDate, inlineResponse200Releases.unknownReleaseDate) &&
         Objects.equals(this.originalReleaseString, inlineResponse200Releases.originalReleaseString) &&
-        Objects.equals(this.requiredAge, inlineResponse200Releases.requiredAge) &&
         Objects.equals(this.shortDescription, inlineResponse200Releases.shortDescription) &&
-        Objects.equals(this.languages, inlineResponse200Releases.languages) &&
+        Objects.equals(this.filterAttrs, inlineResponse200Releases.filterAttrs) &&
         Objects.equals(this.primaryImage, inlineResponse200Releases.primaryImage) &&
         Objects.equals(this.website, inlineResponse200Releases.website) &&
-        Objects.equals(this.developers, inlineResponse200Releases.developers) &&
-        Objects.equals(this.publishers, inlineResponse200Releases.publishers) &&
-        Objects.equals(this.categories, inlineResponse200Releases.categories) &&
-        Objects.equals(this.genres, inlineResponse200Releases.genres) &&
         Objects.equals(this.backgroundImage, inlineResponse200Releases.backgroundImage);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, dateFrom, dateTo, unknownReleaseDate, originalReleaseString, requiredAge, shortDescription, languages, primaryImage, website, developers, publishers, categories, genres, backgroundImage);
+    return Objects.hash(id, name, dateFrom, dateTo, unknownReleaseDate, originalReleaseString, shortDescription, filterAttrs, primaryImage, website, backgroundImage);
   }
 
   @Override
@@ -479,15 +312,10 @@ public class InlineResponse200Releases   {
     sb.append("    dateTo: ").append(toIndentedString(dateTo)).append("\n");
     sb.append("    unknownReleaseDate: ").append(toIndentedString(unknownReleaseDate)).append("\n");
     sb.append("    originalReleaseString: ").append(toIndentedString(originalReleaseString)).append("\n");
-    sb.append("    requiredAge: ").append(toIndentedString(requiredAge)).append("\n");
     sb.append("    shortDescription: ").append(toIndentedString(shortDescription)).append("\n");
-    sb.append("    languages: ").append(toIndentedString(languages)).append("\n");
+    sb.append("    filterAttrs: ").append(toIndentedString(filterAttrs)).append("\n");
     sb.append("    primaryImage: ").append(toIndentedString(primaryImage)).append("\n");
     sb.append("    website: ").append(toIndentedString(website)).append("\n");
-    sb.append("    developers: ").append(toIndentedString(developers)).append("\n");
-    sb.append("    publishers: ").append(toIndentedString(publishers)).append("\n");
-    sb.append("    categories: ").append(toIndentedString(categories)).append("\n");
-    sb.append("    genres: ").append(toIndentedString(genres)).append("\n");
     sb.append("    backgroundImage: ").append(toIndentedString(backgroundImage)).append("\n");
     sb.append("}");
     return sb.toString();
