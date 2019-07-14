@@ -127,7 +127,12 @@ public class Steamworks {
                         logger.error(e.toString());
                     }
                 }
-            } catch (Exception e) {
+            } catch (org.springframework.web.client.HttpClientErrorException httpe) {
+                // too many request etc.
+                logger.error("ABORTING for now " + app.toString() + " ### " + httpe.toString());
+                break;
+            }
+            catch (Exception e) {
                 logger.error("BLACKLISTING " + app.toString() + " ### " + e.toString());
 //                Blacklist bl = new Blacklist(game, platform, app.getAppid());
 //                blacklistRepository.save(bl);
