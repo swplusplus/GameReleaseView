@@ -1,4 +1,4 @@
-package de.swplusplus.gamereleaseview.backend.crawler.steam;
+package de.swplusplus.gamereleaseview.backend.crawler.steam.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -13,13 +13,3 @@ public class AppList {
 
 }
 
-@Data
-class AppsInternal {
-    List<AppId> apps = new ArrayList<>();
-}
-
-@Data
-class AppId {
-    Long appid;
-    String name;
-}

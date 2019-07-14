@@ -1,5 +1,7 @@
 package de.swplusplus.gamereleaseview.backend.model;
 
+import de.swplusplus.gamereleaseview.backend.crawler.steam.json.AppDetail;
+import de.swplusplus.gamereleaseview.backend.crawler.steam.json.PriceOverview;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.util.Pair;
@@ -30,6 +32,10 @@ public class GameRelease {
     private Boolean releaseDateUnknown;
     private String originalReleaseDateString;
 
+    private Boolean isFree;
+    private String currency;
+    private Long price;
+
     public GameRelease() {
     }
 
@@ -55,5 +61,15 @@ public class GameRelease {
 
     public LocalDate getReleaseDateRangeToLocal() {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(getReleaseDateRangeTo().getTime()), ZoneId.systemDefault()).toLocalDate();
+    }
+
+    public void updateFromAppDetail(AppDetail appDetail) {
+        isFree = appDetail.getData().getIs_free();
+        PriceOverview pr = appDetail.getData().getPrice_overview();
+        if (pr != null) {
+            currency = pr.getCurrency();
+            price = pr.getFinal_();
+        }
+        setPlatformInternalId(appDetail.getData().getSteam_appid());
     }
 }
