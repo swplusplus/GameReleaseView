@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-06-16T16:34:32.932323800+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-14T15:14:17.707425200+02:00[Europe/Berlin]")
 
 @Validated
 @Api(value = "releases", description = "the releases API")
@@ -43,11 +43,11 @@ public interface ReleasesApi {
     @RequestMapping(value = "/releases",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<InlineResponse200> releasesGet(@ApiParam(value = "") @Valid @RequestParam(value = "from", required = false) LocalDate from,@ApiParam(value = "") @Valid @RequestParam(value = "to", required = false) LocalDate to) {
+    default ResponseEntity<InlineResponse200> releasesGet(@ApiParam(value = "") @Valid @RequestParam(value = "from", required = false) LocalDate from,@ApiParam(value = "") @Valid @RequestParam(value = "to", required = false) LocalDate to,@ApiParam(value = "") @Valid @RequestParam(value = "with_unknown", required = false) Boolean withUnknown,@ApiParam(value = "") @Valid @RequestParam(value = "exact_dates_only", required = false) Boolean exactDatesOnly) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"releases\" : [ {    \"name\" : \"name\",    \"id\" : 0,    \"date_to\" : \"2000-01-23\",    \"unknown_release_date\" : true,    \"original_release_string\" : \"original_release_string\",    \"date_from\" : \"2000-01-23\"  }, {    \"name\" : \"name\",    \"id\" : 0,    \"date_to\" : \"2000-01-23\",    \"unknown_release_date\" : true,    \"original_release_string\" : \"original_release_string\",    \"date_from\" : \"2000-01-23\"  } ]}");
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"releases\" : [ {    \"primary_image\" : \"primary_image\",    \"short_description\" : \"short_description\",    \"website\" : \"website\",    \"languages\" : [ {      \"subtitles\" : true,      \"ui\" : true,      \"spoken\" : true,      \"language\" : \"language\"    }, {      \"subtitles\" : true,      \"ui\" : true,      \"spoken\" : true,      \"language\" : \"language\"    } ],    \"developers\" : [ \"developers\", \"developers\" ],    \"date_to\" : \"2000-01-23\",    \"original_release_string\" : \"original_release_string\",    \"required_age\" : 6,    \"background_image\" : \"background_image\",    \"genres\" : [ \"genres\", \"genres\" ],    \"name\" : \"name\",    \"publishers\" : [ \"publishers\", \"publishers\" ],    \"id\" : 0,    \"unknown_release_date\" : true,    \"categories\" : [ \"categories\", \"categories\" ],    \"date_from\" : \"2000-01-23\"  }, {    \"primary_image\" : \"primary_image\",    \"short_description\" : \"short_description\",    \"website\" : \"website\",    \"languages\" : [ {      \"subtitles\" : true,      \"ui\" : true,      \"spoken\" : true,      \"language\" : \"language\"    }, {      \"subtitles\" : true,      \"ui\" : true,      \"spoken\" : true,      \"language\" : \"language\"    } ],    \"developers\" : [ \"developers\", \"developers\" ],    \"date_to\" : \"2000-01-23\",    \"original_release_string\" : \"original_release_string\",    \"required_age\" : 6,    \"background_image\" : \"background_image\",    \"genres\" : [ \"genres\", \"genres\" ],    \"name\" : \"name\",    \"publishers\" : [ \"publishers\", \"publishers\" ],    \"id\" : 0,    \"unknown_release_date\" : true,    \"categories\" : [ \"categories\", \"categories\" ],    \"date_from\" : \"2000-01-23\"  } ]}");
                     break;
                 }
             }

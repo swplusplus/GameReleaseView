@@ -19,6 +19,14 @@ paths:
           schema:
             type: string
             format: date
+        - in: query
+          name: with_unknown
+          schema:
+            type: boolean
+        - in: query
+          name: exact_dates_only
+          schema:
+            type: boolean
       responses:
         '200':
           description: void
@@ -46,6 +54,46 @@ paths:
                         unknown_release_date:
                           type: boolean
                         original_release_string:
+                          type: string
+                        required_age:
+                          type: integer
+                          format: int64
+                        short_description:
+                          type: string
+                        languages:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              language:
+                                type: string
+                              ui:
+                                type: boolean
+                              spoken:
+                                type: boolean
+                              subtitles:
+                                type: boolean
+                        primary_image:
+                          type: string
+                        website:
+                          type: string
+                        developers:
+                          type: array
+                          items:
+                            type: string
+                        publishers:
+                          type: array
+                          items:
+                            type: string
+                        categories:
+                          type: array
+                          items:
+                            type: string
+                        genres:
+                          type: array
+                          items:
+                            type: string
+                        background_image:
                           type: string
 
 

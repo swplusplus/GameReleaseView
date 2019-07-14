@@ -1,8 +1,10 @@
 package de.swplusplus.gamereleaseview.backend.controller;
 
+import de.swplusplus.gamereleaseview.backend.model.Category;
 import de.swplusplus.gamereleaseview.backend.model.GameRelease;
 import de.swplusplus.gamereleaseview.backend.repositories.GameReleaseRepository;
 import org.openapitools.model.InlineResponse200;
+import org.openapitools.model.InlineResponse200Languages;
 import org.openapitools.model.InlineResponse200Releases;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -78,7 +80,18 @@ public class GameReleaseController {
                             .dateFrom(release.getReleaseDateRangeFromLocal())
                             .dateTo(release.getReleaseDateRangeToLocal())
                             .unknownReleaseDate((release.getReleaseDateUnknown() == null ? false : release.getReleaseDateUnknown()))
-                            .originalReleaseString(release.getOriginalReleaseDateString());
+                            .originalReleaseString(release.getOriginalReleaseDateString())
+                            .requiredAge(release.getGame().getRequiredAge())
+                            .shortDescription(release.getGame().getShortDescription())
+                            .primaryImage(release.getGame().getLinkToImage())
+                            .website(release.getGame().getLinkToWebsite())
+                            .backgroundImage(release.getGame().getLinkToBackgroundImage());
+
+                    release.getGame().getCategories().forEach((cat) -> {resi.addCategoriesItem(cat.getDescription());});
+                    release.getGame().getDevelopers().forEach((dev) -> {resi.addDevelopersItem(dev.getName());});
+                    release.getGame().getGenres().forEach((genre)-> {resi.addGenresItem(genre.getName());});
+                    release.getGame().getLanguages().forEach((lang)-> {resi.addLanguagesItem(new InlineResponse200Languages().language(lang.getLanguage()).ui(lang.getUi()).spoken(lang.getSpoken()).subtitles(lang.getSubtitles()));});
+
                     res.addReleasesItem(resi);
                 }
             }
