@@ -13,10 +13,10 @@
       <div
         class="column box is-vcentered"
         v-for="ii in 7"
-        :class="{'has-background-grey': !isValidTile(ii-1+(i-1)*7), 'has-background-light': isValidTile(ii-1+(i-1)*7)}"
+        :class="{'has-background-grey': !isValidTile(index(i, ii)), 'has-background-light': isValidTile(index(i, ii))}"
         :key="ii"
       >
-        <oneday v-if="isValidTile(ii-1+(i-1)*7)" :date="tileDate(tileDescriptors[ii-1+(i-1)*7])" />
+        <oneday v-if="isValidTile(index(i, ii))" :date="tileDate(tileDescriptors[index(i, ii)])" />
       </div>
     </div>
   </section>
@@ -44,6 +44,9 @@ export default {
         .utc()
         .date(i)
         .startOf("day");
+    },
+    index(i, ii) {
+      return (ii-1+(i-1)*7)
     }
   },
   computed: {
