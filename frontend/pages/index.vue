@@ -1,5 +1,6 @@
 <template>
   <section>
+    <filters :dateFrom="computeDate(0)" :dateTo="computeDate(30)" />
     <tileCalendar :month="currentMonth()" />
   </section>
 </template>
@@ -8,6 +9,7 @@
 import oneday from "@/components/OneDay";
 import tileCalendar from "@/components/TileCalendar";
 import moment from "moment";
+import filters from "@/components/Filters";
 export default {
   metaInfo: {
     htmlAttrs: {
@@ -16,7 +18,8 @@ export default {
   },
   components: {
     oneday,
-    tileCalendar
+    tileCalendar,
+    filters
   },
   methods: {
     computeDate(daysFromToday) {
