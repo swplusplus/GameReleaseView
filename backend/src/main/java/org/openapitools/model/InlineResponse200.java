@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * InlineResponse200
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-14T15:56:48.647404900+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-21T18:38:57.744707200+02:00[Europe/Berlin]")
 
 public class InlineResponse200   {
   @JsonProperty("releases")

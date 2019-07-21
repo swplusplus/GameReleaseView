@@ -63,19 +63,18 @@ paths:
                             required_age:
                               type: integer
                               format: int64
-                            languages:
+                            spoken_languages:
                               type: array
                               items:
-                                type: object
-                                properties:
-                                  language:
-                                    type: string
-                                  ui:
-                                    type: boolean
-                                  spoken:
-                                    type: boolean
-                                  subtitles:
-                                    type: boolean
+                                type: string
+                            ui_languages:
+                              type: array
+                              items:
+                                type: string
+                            subtitle_languages:
+                              type: array
+                              items:
+                                type: string
                             developers:
                               type: array
                               items:

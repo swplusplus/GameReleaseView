@@ -87,9 +87,21 @@ public class GameReleaseController {
                     InlineResponse200FilterAttrs filterAttrs = new InlineResponse200FilterAttrs();
                     release.getGame().getCategories().forEach((cat) -> {filterAttrs.addCategoriesItem(cat.getDescription());});
                     release.getGame().getDevelopers().forEach((dev) -> {filterAttrs.addDevelopersItem(dev.getName());});
+                    release.getGame().getPublishers().forEach((pub) -> {filterAttrs.addPublishersItem(pub.getName());});
                     release.getGame().getGenres().forEach((genre)-> {filterAttrs.addGenresItem(genre.getName());});
-                    release.getGame().getLanguages().forEach((lang)-> {filterAttrs.addLanguagesItem(new InlineResponse200FilterAttrsLanguages().language(lang.getLanguage()).ui(lang.getUi()).spoken(lang.getSpoken()).subtitles(lang.getSubtitles()));});
+                    release.getGame().getLanguages().forEach((lang)->{
+                        if (lang.getSpoken()) {
+                            filterAttrs.addSpokenLanguagesItem(lang.getLanguage());
+                        }
+                        if (lang.getSubtitles()) {
+                            filterAttrs.addSubtitleLanguagesItem(lang.getLanguage());
+                        }
+                        if (lang.getUi()) {
+                            filterAttrs.addUiLanguagesItem(lang.getLanguage());
+                        }
+                    });
                     filterAttrs.setRequiredAge(release.getGame().getRequiredAge());
+
 
                     resi.setFilterAttrs(filterAttrs);
                     res.addReleasesItem(resi);

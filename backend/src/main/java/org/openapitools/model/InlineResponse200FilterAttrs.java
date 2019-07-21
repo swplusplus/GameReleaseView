@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.model.InlineResponse200FilterAttrsLanguages;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,15 +14,23 @@ import javax.validation.constraints.*;
 /**
  * InlineResponse200FilterAttrs
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-14T15:56:48.647404900+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-21T18:38:57.744707200+02:00[Europe/Berlin]")
 
 public class InlineResponse200FilterAttrs   {
   @JsonProperty("required_age")
   private Long requiredAge;
 
-  @JsonProperty("languages")
+  @JsonProperty("spoken_languages")
   @Valid
-  private List<InlineResponse200FilterAttrsLanguages> languages = null;
+  private List<String> spokenLanguages = null;
+
+  @JsonProperty("ui_languages")
+  @Valid
+  private List<String> uiLanguages = null;
+
+  @JsonProperty("subtitle_languages")
+  @Valid
+  private List<String> subtitleLanguages = null;
 
   @JsonProperty("developers")
   @Valid
@@ -61,33 +68,88 @@ public class InlineResponse200FilterAttrs   {
     this.requiredAge = requiredAge;
   }
 
-  public InlineResponse200FilterAttrs languages(List<InlineResponse200FilterAttrsLanguages> languages) {
-    this.languages = languages;
+  public InlineResponse200FilterAttrs spokenLanguages(List<String> spokenLanguages) {
+    this.spokenLanguages = spokenLanguages;
     return this;
   }
 
-  public InlineResponse200FilterAttrs addLanguagesItem(InlineResponse200FilterAttrsLanguages languagesItem) {
-    if (this.languages == null) {
-      this.languages = new ArrayList<>();
+  public InlineResponse200FilterAttrs addSpokenLanguagesItem(String spokenLanguagesItem) {
+    if (this.spokenLanguages == null) {
+      this.spokenLanguages = new ArrayList<>();
     }
-    this.languages.add(languagesItem);
+    this.spokenLanguages.add(spokenLanguagesItem);
     return this;
   }
 
   /**
-   * Get languages
-   * @return languages
+   * Get spokenLanguages
+   * @return spokenLanguages
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public List<InlineResponse200FilterAttrsLanguages> getLanguages() {
-    return languages;
+  public List<String> getSpokenLanguages() {
+    return spokenLanguages;
   }
 
-  public void setLanguages(List<InlineResponse200FilterAttrsLanguages> languages) {
-    this.languages = languages;
+  public void setSpokenLanguages(List<String> spokenLanguages) {
+    this.spokenLanguages = spokenLanguages;
+  }
+
+  public InlineResponse200FilterAttrs uiLanguages(List<String> uiLanguages) {
+    this.uiLanguages = uiLanguages;
+    return this;
+  }
+
+  public InlineResponse200FilterAttrs addUiLanguagesItem(String uiLanguagesItem) {
+    if (this.uiLanguages == null) {
+      this.uiLanguages = new ArrayList<>();
+    }
+    this.uiLanguages.add(uiLanguagesItem);
+    return this;
+  }
+
+  /**
+   * Get uiLanguages
+   * @return uiLanguages
+  */
+  @ApiModelProperty(value = "")
+
+
+  public List<String> getUiLanguages() {
+    return uiLanguages;
+  }
+
+  public void setUiLanguages(List<String> uiLanguages) {
+    this.uiLanguages = uiLanguages;
+  }
+
+  public InlineResponse200FilterAttrs subtitleLanguages(List<String> subtitleLanguages) {
+    this.subtitleLanguages = subtitleLanguages;
+    return this;
+  }
+
+  public InlineResponse200FilterAttrs addSubtitleLanguagesItem(String subtitleLanguagesItem) {
+    if (this.subtitleLanguages == null) {
+      this.subtitleLanguages = new ArrayList<>();
+    }
+    this.subtitleLanguages.add(subtitleLanguagesItem);
+    return this;
+  }
+
+  /**
+   * Get subtitleLanguages
+   * @return subtitleLanguages
+  */
+  @ApiModelProperty(value = "")
+
+
+  public List<String> getSubtitleLanguages() {
+    return subtitleLanguages;
+  }
+
+  public void setSubtitleLanguages(List<String> subtitleLanguages) {
+    this.subtitleLanguages = subtitleLanguages;
   }
 
   public InlineResponse200FilterAttrs developers(List<String> developers) {
@@ -213,7 +275,9 @@ public class InlineResponse200FilterAttrs   {
     }
     InlineResponse200FilterAttrs inlineResponse200FilterAttrs = (InlineResponse200FilterAttrs) o;
     return Objects.equals(this.requiredAge, inlineResponse200FilterAttrs.requiredAge) &&
-        Objects.equals(this.languages, inlineResponse200FilterAttrs.languages) &&
+        Objects.equals(this.spokenLanguages, inlineResponse200FilterAttrs.spokenLanguages) &&
+        Objects.equals(this.uiLanguages, inlineResponse200FilterAttrs.uiLanguages) &&
+        Objects.equals(this.subtitleLanguages, inlineResponse200FilterAttrs.subtitleLanguages) &&
         Objects.equals(this.developers, inlineResponse200FilterAttrs.developers) &&
         Objects.equals(this.publishers, inlineResponse200FilterAttrs.publishers) &&
         Objects.equals(this.categories, inlineResponse200FilterAttrs.categories) &&
@@ -222,7 +286,7 @@ public class InlineResponse200FilterAttrs   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(requiredAge, languages, developers, publishers, categories, genres);
+    return Objects.hash(requiredAge, spokenLanguages, uiLanguages, subtitleLanguages, developers, publishers, categories, genres);
   }
 
   @Override
@@ -231,7 +295,9 @@ public class InlineResponse200FilterAttrs   {
     sb.append("class InlineResponse200FilterAttrs {\n");
     
     sb.append("    requiredAge: ").append(toIndentedString(requiredAge)).append("\n");
-    sb.append("    languages: ").append(toIndentedString(languages)).append("\n");
+    sb.append("    spokenLanguages: ").append(toIndentedString(spokenLanguages)).append("\n");
+    sb.append("    uiLanguages: ").append(toIndentedString(uiLanguages)).append("\n");
+    sb.append("    subtitleLanguages: ").append(toIndentedString(subtitleLanguages)).append("\n");
     sb.append("    developers: ").append(toIndentedString(developers)).append("\n");
     sb.append("    publishers: ").append(toIndentedString(publishers)).append("\n");
     sb.append("    categories: ").append(toIndentedString(categories)).append("\n");
