@@ -1,11 +1,13 @@
 <template>
   <section>
-    <filters :dateFrom="computeDate(0)" :dateTo="computeDate(30)" />
+    <intervalSetter />
+    <filters />
     <tileCalendar :month="currentMonth()" />
   </section>
 </template>
 
 <script>
+import intervalSetter from "@/components/IntervalSetter";
 import oneday from "@/components/OneDay";
 import tileCalendar from "@/components/TileCalendar";
 import moment from "moment";
@@ -17,6 +19,7 @@ export default {
     }
   },
   components: {
+    intervalSetter,
     oneday,
     tileCalendar,
     filters

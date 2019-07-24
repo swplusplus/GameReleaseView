@@ -8,12 +8,16 @@ function pad(n) {
 }
 
 export const state = () => ({
-    releases: []
+    releases: [],
+    visible_releases: []
 });
 
 export const mutations = {
     setReleases(state, rel) {
         state.releases = rel;
+    },
+    setVisibleReleases(state, vis) {
+        visible_releases = vis;
     }
 }
 
@@ -38,12 +42,18 @@ export const actions = {
     },
     setReleases(vuexContext, releases) {
         vuexContext.commit("setReleases", releases);
+    },
+    setViewInterval(vuexContext, interval) {
+        vuexContext.dispatch("setVisibleReleases", vuexContext.getters.getReleasesBetween(interval.startDate, interval.endDate));
     }
 }
 
 export const getters = {
-    getReleases(state) {
+    getReleases: (state) => {
         return state.releases;
+    },
+    getVisibleReleases: (state) => {
+        return state.visible_releases;
     },
     getReleaseByDate: (state) => (date) => {
         var filtered = state.releases.filter(release => {
@@ -57,7 +67,7 @@ export const getters = {
         });
         return filtered;
     },
-    getAttrFiltersBetween: (state, getters) => (startDate, endDate) => {
+    getAttrFilters: (state, getters) => {
         console.log("COMPUTING filter attributes!");
         var attrs = {
             attributes: []
@@ -67,8 +77,7 @@ export const getters = {
             // }
         }
 
-        var releases = getters.getReleasesBetween(startDate, endDate)
-        console.log(releases.length + " releases")
+        var releases = getters.getVisibleReleases;
         for (var release in releases) {
             for (var attr in releases[release].filter_attrs) {
                 if (releases[release].filter_attrs[attr] != null) {

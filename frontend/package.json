@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxtjs/bulma": "^1.2.4",
     "axios": "^0.18.1",
+    "bulma-calendar": "^6.0.7",
     "cross-env": "^5.2.0",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",

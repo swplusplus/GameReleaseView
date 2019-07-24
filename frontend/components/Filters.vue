@@ -36,28 +36,10 @@ import moment from "moment";
 export default {
   computed: {
     filter_attrs() {
-      var filterAttrs = this.$store.getters.getAttrFiltersBetween(
-        moment()
-          .utc()
-          .startOf("day")
-          .date(1),
-        moment()
-          .utc()
-          .startOf("day")
-          .date(moment().daysInMonth())
-      );
+      var filterAttrs = this.$store.getters.getAttrFilters;
       return filterAttrs;
     }
   },
-  props: {
-    dateFrom: {
-      type: moment,
-      default: moment()
-    },
-    dateTo: {
-      type: moment,
-      default: moment()
-    }
-  }
+  props: {}
 };
 </script>
