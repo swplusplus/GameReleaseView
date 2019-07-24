@@ -15,7 +15,11 @@ public class MyApplicationContextInitializer implements ApplicationContextInitia
         try {
             // should be C:\Projects\swplusplus\GameReleaseView\backend\out\production\classes
             File pwd = new File(getClass().getResource("/").toURI());
-            String projectDir = pwd.getParentFile().getParentFile().getParent();
+
+            File projectDir = pwd.getParentFile();
+            while(!projectDir.getName().equals("backend")){
+                projectDir = projectDir.getParentFile();
+            }
             String dbPath = new File(projectDir, "db/GameReleaseViewDB").getAbsolutePath();
             Map<String, Object> props = new HashMap<>();
             props.put("spring.datasource.url", "jdbc:h2:" + dbPath + ";DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE");
