@@ -17,7 +17,7 @@ export const mutations = {
         state.releases = rel;
     },
     setVisibleReleases(state, vis) {
-        visible_releases = vis;
+        state.visible_releases = vis;
     }
 }
 
@@ -43,8 +43,12 @@ export const actions = {
     setReleases(vuexContext, releases) {
         vuexContext.commit("setReleases", releases);
     },
+    setVisibleReleases(vuexContext, releases) {
+        vuexContext.commit("setVisibleReleases", releases);
+    },
     setViewInterval(vuexContext, interval) {
-        vuexContext.dispatch("setVisibleReleases", vuexContext.getters.getReleasesBetween(interval.startDate, interval.endDate));
+        const releases = vuexContext.getters.getReleasesBetween(interval.startDate, interval.endDate);
+        vuexContext.dispatch("setVisibleReleases", releases);
     }
 }
 

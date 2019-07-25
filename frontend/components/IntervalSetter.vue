@@ -1,15 +1,16 @@
 <template>
   <div>
-    Selected date: { { niceDateStart } }
-    <button ref="calendarTriggerStart" type="button">Change</button>
-    <!-- Selected date: { { niceDate } }
-    <button ref="calendarTriggerEnd" type="button">Change</button>-->
+    <input ref="calendarTriggerStart" type="date" class="input" data-is-range="true" show-buttons="false"></input>
   </div>
 </template>
 
 <script>
 import moment from "moment";
-import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.min.js";
+if (process.client) {
+  const bulmaCalendar = require('bulma-calendar/dist/js/bulma-calendar.js');
+  console.log(bulmaCalendar);
+}
+//import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.js";
 export default {
   data() {
     return {
@@ -18,39 +19,36 @@ export default {
     };
   },
   methods: {
-    setInterval: function(startDate, endDate) {
-      this.$store.dispatch("setInterval", {
-        startDate: startDate,
-        endDate: endDate
+    setInterval: function() {
+      this.$store.dispatch("setViewInterval", {
+        startDate: this.dateStart,
+        endDate: this.dateEnd
       });
     }
   },
-  mounted() {
-    if (process.client) {
-      const calendarStart = bulmaCalendar.attach(
+   mounted() {
+     if (process.client) {
+       this.setInterval();
+      const bulmaCalendar = require('bulma-calendar/dist/js/bulma-calendar.js');
+      console.log(this);
+      const calendar = bulmaCalendar.attach(
         this.$refs.calendarTriggerStart,
         {
-          startDate: this.date
+          startDate: this.dateStart.toDate(),
+          endDate: this.dateEnd.toDate()
         }
       )[0];
-      calendarStart.on(
-        "date:selected",
-        e => (this.startDate = moment(e.start) || null)
+      calendar.on(
+        "select",
+        e => {
+          console.log(typeof(e.data.startDate));
+          console.log(e.data.endDate);
+          this.dateStart = moment(e.data.startDate);
+          this.dateEnd = moment(e.data.endDate);
+          this.setInterval();
+          }
       );
-      this.setInterval();
     }
-  },
-  computed: {
-    niceDateStart() {
-      if (this.date) {
-        return this.date.toLocaleDateString();
-      }
-    },
-    niceDateEnd() {
-      if (this.date) {
-        return this.date.toLocaleDateString();
-      }
-    }
-  }
+   }
 };
 </script>
