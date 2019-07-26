@@ -9,7 +9,9 @@ function pad(n) {
 
 export const state = () => ({
     releases: [],
-    visible_releases: []
+    visible_releases: [],
+    intervalStart: moment(),
+    intervalEnd: moment()
 });
 
 export const mutations = {
@@ -18,6 +20,10 @@ export const mutations = {
     },
     setVisibleReleases(state, vis) {
         state.visible_releases = vis;
+    },
+    setInterval(state, interval) {
+        state.intervalStart = moment(interval.startDate).startOf("day");
+        state.intervalEnd = moment(interval.endDate).startOf("day");
     }
 }
 
@@ -32,8 +38,8 @@ export const actions = {
                 var releasesArray = [];
                 for (const release of res.data.releases) {
                     var releaseObj = release
-                    releaseObj.dateFrom = moment.utc(release.date_from).startOf("day");
-                    releaseObj.dateTo = moment.utc(release.date_to).startOf("day");
+                    releaseObj.dateFrom = moment(release.date_from).startOf("day");
+                    releaseObj.dateTo = moment(release.date_to).startOf("day");
                     releasesArray.push(releaseObj);
                 }
                 vuexContext.dispatch("setReleases", releasesArray)
@@ -47,8 +53,10 @@ export const actions = {
         vuexContext.commit("setVisibleReleases", releases);
     },
     setViewInterval(vuexContext, interval) {
-        const releases = vuexContext.getters.getReleasesBetween(interval.startDate, interval.endDate);
+        const releases = vuexContext.getters.getReleasesBetween(moment(interval.startDate).startOf("day"), moment(interval.endDate).startOf("day"));
         vuexContext.dispatch("setVisibleReleases", releases);
+        vuexContext.commit("setInterval", interval);
+        console.log(interval.startDate);
     }
 }
 
@@ -58,6 +66,12 @@ export const getters = {
     },
     getVisibleReleases: (state) => {
         return state.visible_releases;
+    },
+    getIntervalStart: (state) => {
+        return state.intervalStart;
+    },
+    getIntervalEnd: (state) => {
+        return state.intervalEnd;
     },
     getReleaseByDate: (state) => (date) => {
         var filtered = state.releases.filter(release => {
@@ -82,6 +96,7 @@ export const getters = {
         }
 
         var releases = getters.getVisibleReleases;
+        console.log(releases);
         for (var release in releases) {
             for (var attr in releases[release].filter_attrs) {
                 if (releases[release].filter_attrs[attr] != null) {

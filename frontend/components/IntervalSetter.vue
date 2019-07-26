@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       dateStart: moment(),
-      dateEnd: moment().add(1, "week")
+      dateEnd: moment()//.add(1, "week")
     };
   },
   methods: {

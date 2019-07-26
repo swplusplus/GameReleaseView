@@ -2,7 +2,7 @@
   <section>
     <intervalSetter />
     <filters />
-    <tileCalendar :month="currentMonth()" />
+    <tileCalendar/>
   </section>
 </template>
 
@@ -25,17 +25,6 @@ export default {
     filters
   },
   methods: {
-    computeDate(daysFromToday) {
-      return moment()
-        .utc()
-        .startOf("day")
-        .add(daysFromToday, "days");
-    },
-    currentMonth() {
-      return moment()
-        .utc()
-        .date(1);
-    }
   }
 };
 </script>

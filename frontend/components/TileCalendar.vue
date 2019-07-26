@@ -27,10 +27,6 @@ import moment from "moment";
 import oneday from "@/components/OneDay";
 export default {
   props: {
-    month: {
-      type: moment,
-      required: true
-    }
   },
   components: {
     oneday
@@ -40,9 +36,7 @@ export default {
       return i < this.tileDescriptors.length && this.tileDescriptors[i] != null;
     },
     tileDate(i) {
-      return moment()
-        .utc()
-        .date(i)
+      return moment(this.dateStart).add(i, "d")
         .startOf("day");
     },
     index(i, ii) {
@@ -50,9 +44,24 @@ export default {
     }
   },
   computed: {
+    dateStart() {
+        return moment(this.$store.getters.getIntervalStart);
+    },
+    dateEnd() {
+      return moment(this.$store.getters.getIntervalEnd);
+    },
     tileDescriptors() {
       var tiles = [];
-      var m = this.month.date(1).startOf("day");
+      if (!this.dateEnd || !this.dateStart){
+        console.error("interval not set");
+        return tiles;
+      }
+      if (this.dateStart.isAfter(this.dateEnd)) {
+        console.error("end must be after start");
+        return tiles;
+      }
+
+      var m = new moment(this.dateStart);
 
       // init with padding, if month does not start on monday
       // 1=monday, 7=saturday
@@ -60,9 +69,15 @@ export default {
         tiles.push(null);
       }
 
-      for (var i = 1; i < m.daysInMonth() + 1; ++i) {
+      var i = 0;
+      while (!m.isAfter(this.dateEnd)){
+        m.add(1, "d");
         tiles.push(i);
+        ++i;
       }
+
+      // for (var i = 1; i < this.dateEnd + 1; ++i) {
+      // }
 
       var padding = tiles.length % 7;
       for (var i = 0; i < padding; ++i) {
