@@ -18,11 +18,12 @@
           <th>{{item.category.replace('_',' ')}}</th>
           <td>
             <p class="buttons">
-              <button
-                class="button is-small"
+              <filter_setter
                 v-for="(value, index) in item.values"
                 :key="index"
-              >{{value.category_value}} ({{value.games.length}})</button>
+                :name="value.category_value"
+                :count="value.games.length"
+              ></filter_setter>
             </p>
           </td>
         </tr>
@@ -33,12 +34,16 @@
 
 <script>
 import moment from "moment";
+import filter_setter from "@/components/FilterSetter";
 export default {
   computed: {
     filter_attrs() {
       var filterAttrs = this.$store.getters.getAttrFilters;
       return filterAttrs;
     }
+  },
+  components:{
+    filter_setter
   },
   props: {}
 };
