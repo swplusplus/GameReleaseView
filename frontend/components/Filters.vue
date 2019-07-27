@@ -14,19 +14,8 @@
         </tr>
       </tfoot>
       <tbody>
-        <tr v-for="(item) in filter_attrs" :key="item.category">
-          <th>{{item.category.replace('_',' ')}}</th>
-          <td>
-            <p class="buttons">
-              <filter_setter
-                v-for="(value, index) in item.values"
-                :key="index"
-                :name="value.category_value"
-                :count="value.games.length"
-              ></filter_setter>
-            </p>
-          </td>
-        </tr>
+        <filter_row v-for="(item) in filter_attrs" :key="item.category" :item="item">
+        </filter_row>
       </tbody>
     </table>
   </div>
@@ -34,7 +23,7 @@
 
 <script>
 import moment from "moment";
-import filter_setter from "@/components/FilterSetter";
+import filter_row from "@/components/FilterRow";
 export default {
   computed: {
     filter_attrs() {
@@ -43,7 +32,7 @@ export default {
     }
   },
   components:{
-    filter_setter
+    filter_row
   },
   props: {}
 };
