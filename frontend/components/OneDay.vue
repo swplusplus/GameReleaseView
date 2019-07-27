@@ -10,7 +10,7 @@ import moment from "moment";
 export default {
   computed: {
     releases() {
-      return this.$store.getters.getReleaseByDate(this.date);
+      return this.$store.getters.getVisibleReleaseByDate(this.date);
     }
   },
   props: {

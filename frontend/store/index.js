@@ -73,8 +73,8 @@ export const getters = {
     getIntervalEnd: (state) => {
         return state.intervalEnd;
     },
-    getReleaseByDate: (state) => (date) => {
-        var filtered = state.releases.filter(release => {
+    getVisibleReleaseByDate: (state) => (date) => {
+        var filtered = state.visible_releases.filter(release => {
             return moment(date).isBetween(release.dateFrom, release.dateTo, null, "[]");
         });
         return filtered;
