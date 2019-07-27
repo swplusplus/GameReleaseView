@@ -19,7 +19,7 @@ import filter_setter from "@/components/FilterSetter";
 export default {
     data() {
         return {
-            collapsed: true
+            collapsed: this.item.values.length > 30
         }
     },
     props:{
