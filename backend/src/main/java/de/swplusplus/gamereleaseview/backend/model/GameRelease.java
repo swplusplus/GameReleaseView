@@ -36,6 +36,8 @@ public class GameRelease {
     private String currency;
     private Long price;
 
+    private String shopUrl;
+
     public GameRelease() {
     }
 
@@ -71,5 +73,6 @@ public class GameRelease {
             price = pr.getFinal_();
         }
         setPlatformInternalId(appDetail.getData().getSteam_appid());
+
     }
 }

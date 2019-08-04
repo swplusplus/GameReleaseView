@@ -102,6 +102,7 @@ public class Steamworks {
                             gr.setReleaseDateUnknown(dateParser.isComingSoonButUnknown(strDate, appDetail.getData().getRelease_date().isComing_soon()));
                             gr.setOriginalReleaseDateString(strDate);
                             gr.updateFromAppDetail(appDetail);
+                            gr.setShopUrl("https://store.steampowered.com/app/" + app.getAppid());
                             game.assignGameRelease(gr);
                             // only store details for unreleased games to save some space
                             final Date now = new Date();

@@ -105,6 +105,7 @@ public class GameReleaseController {
 
                     resi.setFilterAttrs(filterAttrs);
                     res.addReleasesItem(resi);
+                    resi.setShopUrl(release.getShopUrl());
                 }
             }
         }

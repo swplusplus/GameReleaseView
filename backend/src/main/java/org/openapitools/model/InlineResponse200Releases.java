@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * InlineResponse200Releases
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-07-21T18:38:57.744707200+02:00[Europe/Berlin]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2019-08-04T13:20:05.015979200+02:00[Europe/Berlin]")
 
 public class InlineResponse200Releases   {
   @JsonProperty("id")
@@ -49,6 +49,9 @@ public class InlineResponse200Releases   {
 
   @JsonProperty("background_image")
   private String backgroundImage;
+
+  @JsonProperty("shop_url")
+  private String shopUrl;
 
   public InlineResponse200Releases id(Long id) {
     this.id = id;
@@ -273,6 +276,26 @@ public class InlineResponse200Releases   {
     this.backgroundImage = backgroundImage;
   }
 
+  public InlineResponse200Releases shopUrl(String shopUrl) {
+    this.shopUrl = shopUrl;
+    return this;
+  }
+
+  /**
+   * Get shopUrl
+   * @return shopUrl
+  */
+  @ApiModelProperty(value = "")
+
+
+  public String getShopUrl() {
+    return shopUrl;
+  }
+
+  public void setShopUrl(String shopUrl) {
+    this.shopUrl = shopUrl;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -293,12 +316,13 @@ public class InlineResponse200Releases   {
         Objects.equals(this.filterAttrs, inlineResponse200Releases.filterAttrs) &&
         Objects.equals(this.primaryImage, inlineResponse200Releases.primaryImage) &&
         Objects.equals(this.website, inlineResponse200Releases.website) &&
-        Objects.equals(this.backgroundImage, inlineResponse200Releases.backgroundImage);
+        Objects.equals(this.backgroundImage, inlineResponse200Releases.backgroundImage) &&
+        Objects.equals(this.shopUrl, inlineResponse200Releases.shopUrl);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, dateFrom, dateTo, unknownReleaseDate, originalReleaseString, shortDescription, filterAttrs, primaryImage, website, backgroundImage);
+    return Objects.hash(id, name, dateFrom, dateTo, unknownReleaseDate, originalReleaseString, shortDescription, filterAttrs, primaryImage, website, backgroundImage, shopUrl);
   }
 
   @Override
@@ -317,6 +341,7 @@ public class InlineResponse200Releases   {
     sb.append("    primaryImage: ").append(toIndentedString(primaryImage)).append("\n");
     sb.append("    website: ").append(toIndentedString(website)).append("\n");
     sb.append("    backgroundImage: ").append(toIndentedString(backgroundImage)).append("\n");
+    sb.append("    shopUrl: ").append(toIndentedString(shopUrl)).append("\n");
     sb.append("}");
     return sb.toString();
   }

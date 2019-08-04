@@ -97,5 +97,7 @@ paths:
                           type: string
                         background_image:
                           type: string
+                        shop_url:
+                          type: string
 
 
