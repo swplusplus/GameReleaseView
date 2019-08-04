@@ -1,0 +1,1 @@
+export const ViewModeEnum = Object.freeze({ "calendar": "Calendar", "timeline": "Timeline" });
