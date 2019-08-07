@@ -61,28 +61,27 @@ export const actions = {
         const excludedFilters = vuexContext.getters.getExcludedFilters;
         const includedFilters = vuexContext.getters.getIncludedFilters;
 
-        const hasIncludes = includedFilters.findIndex(catFilters => {return catFilters.values.length > 0;}) != -1;
+        const hasIncludes = includedFilters.findIndex(catFilters => { return catFilters.values.length > 0; }) != -1;
 
         for (var releaseIdx in releases) {
             var release = releases[releaseIdx];
             var visible = false;
             if (hasIncludes) {
-                visible = includedFilters.findIndex(catFilters => {
-                    return catFilters.values.findIndex(filter => {
-                        return filter.games.includes(release.id);}) != -1;
-                }) != -1;
+                visible = includedFilters.every(catFilters => {
+                    return catFilters.values.every(filter => {
+                        return filter.games.includes(release.id);
+                    });
+                });
             } else {
-                var invisible = [];
-                visible = invisible.findIndex(id => {return id == release.id;}) == -1 
-                            && excludedFilters.findIndex(catFilters => {
-                                return catFilters.values.findIndex(filter => {
-                                    return filter.games.includes(release.id);}) == -1;
-                            }) != -1;
-                if (!visible) {
-                    invisible.push(release.id);
-                }
+                visible = excludedFilters.findIndex(catFilters => {
+                    var inAnyExcludedFilters = catFilters.values.findIndex(filter => {
+                        var listedInFilter = filter.games.includes(release.id);
+                        return listedInFilter;
+                    }) != -1
+                    return inAnyExcludedFilters;
+                }) == -1;
             }
-            vuexContext.commit("setReleaseVisible", {id: release.id, visible: visible});
+            vuexContext.commit("setReleaseVisible", { id: release.id, visible: visible });
         }
     },
     setViewInterval(vuexContext, interval) {
@@ -91,18 +90,18 @@ export const actions = {
     },
     setCategoryFilters(vuexContext, categoryFilters) {
         var excludedFilters = JSON.parse(JSON.stringify(vuexContext.getters.getExcludedFilters));
-        var index = excludedFilters.findIndex(e => {return e.category === categoryFilters.category;});
+        var index = excludedFilters.findIndex(e => { return e.category === categoryFilters.category; });
         if (index == -1) {
-            excludedFilters.push({category: categoryFilters.category, values: []});
+            excludedFilters.push({ category: categoryFilters.category, values: [] });
             index = excludedFilters.length - 1;
         }
         excludedFilters[index].values = categoryFilters.excluded;
         vuexContext.commit("setExcludedFilters", excludedFilters);
 
         var includedFilters = JSON.parse(JSON.stringify(vuexContext.getters.getIncludedFilters));
-        var index = includedFilters.findIndex(e => {return e.category === categoryFilters.category;});
+        var index = includedFilters.findIndex(e => { return e.category === categoryFilters.category; });
         if (index == -1) {
-            includedFilters.push({category: categoryFilters.category, values: []});
+            includedFilters.push({ category: categoryFilters.category, values: [] });
             index = includedFilters.length - 1;
         }
         includedFilters[index].values = categoryFilters.included;
