@@ -16,7 +16,7 @@
     "bulma-calendar": "^6.0.7",
     "bulma-timeline": "^3.0.4",
     "cross-env": "^5.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "node-sass": "^4.12.0",
     "nuxt": "^2.8.1",
     "sass-loader": "^7.1.0",
